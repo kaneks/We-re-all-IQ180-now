@@ -47,7 +47,7 @@ app.get('/time', function(req, res){
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
 
-    var ans = "[{" + year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec + "]}";
+    var ans = "[{" + year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec + "}]";
 
     return res.send(ans);
 
