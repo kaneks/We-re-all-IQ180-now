@@ -27,11 +27,62 @@ app.get('/', function(req, res){
 	res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/time', function(req, res){
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    var ans = "[{" + year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec + "]}";
+
+    return res.send(ans);
+
+});
+
+
 app.post('/getUser', function(req, res){
 	var user = req.body.username;
 
 	if(!req.body.username) {
-		return res.send({"status": "error", "message": "missing a parameter"});
+        MongoClient.connect(url, function (err, db) {
+            if (err) {
+                console.log('Unable to connect to the mongoDB server. Error:', err);
+            } else {
+
+                console.log('Connection established to', url);
+                var collection = db.collection('user');
+                collection.find({}).toArray(function (err, result) {
+                    if (err) {
+                        console.log(err);
+                        return res.send([{"status": "0"}]);
+                    } else if (result.length) {
+                        console.log('Found:', result);
+                        return res.send(result);
+                    } else {
+                        console.log('No document(s) found with defined "find" criteria!');
+                        return res.send([{"status": "0"}]);
+                    }
+
+
+                    db.close();
+                });
+
+            }
+        });
 	} else {
 
 
