@@ -1,4 +1,3 @@
-
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -16,12 +15,15 @@ var MongoClient = mongodb.MongoClient;
 var url = 'mongodb://localhost:27017/netcentric';
 
 var bodyParser = require('body-parser');
+
+var roomNumber = 0;
+var playerNumber = 0;
+
 app.use(bodyParser.json()); // support json encoded bodies
+
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 app.get('/', function(req, res){
 	res.sendFile(__dirname + '/index.html');
@@ -52,7 +54,6 @@ app.get('/time', function(req, res){
     return res.send(ans);
 
 });
-
 
 app.post('/getUser', function(req, res){
 	var user = req.body.username;
@@ -152,8 +153,6 @@ app.post('/updateUser', function(req, res){
     }
 });
 
-
-
 app.post('/newUser', function(req, res){
 
 	
@@ -188,12 +187,30 @@ app.post('/newUser', function(req, res){
 	}
 });
 
-
-
 io.on('connection', function(socket){
 	socket.on('chat message', function(msg){
 		io.emit('chat message', msg);
 	});
+	socket.on('submit', function(t){
+		//TODO
+		//client submits t in miliseconds that has passed since the start of his/her turn
+		//t equals 60000 if he/she ran out of time
+	});
+	if(io.sockets.adapter.rooms['room' + roomNumber] && io.sockets.adapter.rooms['room' + roomNumber].length == 2)
+		roomNumber++;
+	socket.join('room' + roomNumber);
+	//2 clients per room, assign first player as 0 and second as 1
+	if(io.sockets.adapter.rooms['room' + roomNumber].length == 1){
+		socket.emit('assignPlayerNumber', playerNumber);
+		playerNumber = 1;
+	} else {
+		socket.emit('assignPlayerNumber', playerNumber);
+		playerNumber = 0;
+		io.sockets.in('room' + roomNumber).emit('gameReady');
+		socket.on('')
+	}
+	socket.emit('log', 'Your socket id is ' + socket.id + ".");
+	//io.emit('log', io.sockets.adapter.rooms);
 });
 
 http.listen(3000, function(){
