@@ -1,38 +1,66 @@
-/**
- * Created by Kaneks on 10/17/2016 AD.
- */
-
-var myId;
-var opponentId;
 var myName;
 var opponentName;
+var myNumber;
 var roomNumber;
-var state;
 
 var socket = io();
 
-$('form').submit(function(){
-    socket.emit('chat message', $('#m').val());
-    $('#m').val('');
-    return false;
+//PLACEHOLDER NAME
+
+socket.emit('join', 'mickey');
+
+//ASSIGN ACTIONS TO BUTTON 
+
+$('joinButton').click(function () {
+	socket.emit('join', myName);
+});
+$('readyButton').click(function () {
+	socket.emit('playerReady', roomNumber);
 });
 
-socket.on('chat message', function(msg){
-    $('#messages').append($('<li>').text(msg));
+socket.on('assignRoom', function (data) {
+	console.log(data.room);
+	roomNumber = data.roomNumber;
+	if(socket.id == data.room.first.id){
+		opponentName = data.room.second.name;
+	} else {
+		opponentName = data.room.first.name;
+	}
 });
 
-socket.on('log', function(msg){
-    console.log(msg);
-});
-
-$('submitNameButton').click(function () {
-   socket.emit('') 
+socket.on('gameReady', function() {
+	//UNLOCK READY BUTTON
 });
 
 socket.on('start', function () {
-   //START GAME
+	//START GAME AND RECORD TIME
+	//EMIT TIME (miliseconds) TO SERVER ONCE PLAYER FINISHES, EMIT 60000 IF PLAYER DOESNT FINISH ON WITHIN 1 MINUTE
+	socket.emit('submit', {'roomNumber':roomNumber, 'time':50000});
 });
 
 socket.on('wait', function () {
-    //SET PAGE TO WAIT
+	//SET PAGE TO WAIT
+});
+
+socket.on('win', function(){
+	//WIN
+});
+
+socket.on('lose', function(){
+	//LOSE
+});
+
+//CHAT AND LOG
+
+$('form').submit(function () {
+	socket.emit('chat message', {'roomNumber':roomNumber, 'msg':$('#m').val()});
+	$('#m').val('');
+	return false;
+});
+
+socket.on('chat message', function (msg) {
+	$('#messages').append($('<li>').text(msg));
+});
+socket.on('log', function (msg) {
+	console.log(msg);
 });

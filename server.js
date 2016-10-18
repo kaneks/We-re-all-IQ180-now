@@ -16,9 +16,6 @@ var url = 'mongodb://localhost:27017/netcentric';
 
 var bodyParser = require('body-parser');
 
-var roomNumber = 0;
-var playerNumber = 0;
-
 app.use(bodyParser.json()); // support json encoded bodies
 
 app.use(bodyParser.urlencoded({
@@ -228,76 +225,86 @@ app.post('/newUser', function (req, res) {
 	}
 });
 
+var rooms = [];
+var roomCount = 0;
+
 io.on('connection', function (socket) {
-	
-	socket.emit('log', 'Your socket id is ' + socket.id + ".");
-	
-	socket.set('state', 0);
 
 	socket.on('join', function (name) {
 		
-		socket.set('state', 1);
-		
-		if (io.sockets.adapter.rooms[roomNumber] && io.sockets.adapter.rooms[roomNumber].length == 2)
-			roomNumber++;
-		socket.join(roomNumber);
+		if (io.sockets.adapter.rooms[roomCount] && io.sockets.adapter.rooms[roomCount].length == 2)
+			roomCount++;
+		socket.join(roomCount);
 		
 		//2 clients per room, assign first player as 0 and second as 1
-		if (io.sockets.adapter.rooms[roomNumber].length == 1) {
+		if (io.sockets.adapter.rooms[roomCount].length == 1) {
+			rooms[roomCount] = new Object();
+			rooms[roomCount].first = new Object();
+			rooms[roomCount].second = new Object();
 			if (Math.random() < 0.5) {
-				playerNumber = 0;
+				rooms[roomCount].first.id = socket.id;
+				rooms[roomCount].first.name = name;
 			} else {
-				playerNumber = 1;
+				rooms[roomCount].second.id = socket.id;
+				rooms[roomCount].second.name = name;
 			}
-			socket.emit('assignPlayerNumberAndRoom', {'player':playerNumber, 'room':roomNumber});
 		} else {
-			if (playerNumber == 0) {
-				playerNumber = 1;
+			if (rooms[roomCount].first.id != '') {
+				rooms[roomCount].second.id = socket.id;
+				rooms[roomCount].second.name = name;
 			} else {
-				playerNumber = 0;
+				rooms[roomCount].first.id = socket.id;
+				rooms[roomCount].first.name = name;
 			}
-			socket.emit('assignPlayerNumberAndRoom', {'player':playerNumber, 'room':roomNumber});
 			//emit opponent name
-			io.sockets.in(roomNumber).emit('assignOpponentId', {'opponent': io.sockets.adapter.rooms[roomNumber]});
-			io.sockets.in(roomNumber).emit('gameReady');
+			io.sockets.in(roomCount).emit('assignRoom', {'roomNumber':roomCount,'room':rooms[roomCount]});
+			io.sockets.in(roomCount).emit('gameReady');
+			rooms[roomCount].first.ready = false;
+			rooms[roomCount].second.ready = false;
 		}
 	});
 
-	socket.on('playerReady', function (data) {
-		socket.set('state', 2);
-		if (io.to(data.opponent.id).get('state') == 2) {
-			if(data.playerNumber == 0){
-				socket.emit('start');
-				io.to(data.opponent.id).emit('wait');
-			} else {
-				socket.emit('start');
-				io.to(data.opponent.id).emit('wait');
-			}
+	socket.on('playerReady', function (roomNumber) {
+		if(socket.id == rooms[roomNumber].first.id){
+			rooms[roomNumber].first.ready = true;
+		} else {
+			rooms[roomNumber].second.ready = true;
+		}
+		if (rooms[roomNumber].first.ready && rooms[roomNumber].second.ready) {
+			io.to(rooms[roomNumber].first.id).emit('start');
+			io.to(rooms[roomNumber].second.id).emit('wait');
 		}
 	});
 	
 	socket.on('submit', function (data) {
-		socket.set('state', 3);
-		socket.set('time', data.time);
-		if(data.playerNumber == 0){
+		
+		//receive first player time
+		
+		if(socket.id == rooms[roomNumber].first.id){
+			rooms[data.roomNumber].first.time = data.time;
 			socket.emit('wait');
-			io.to(data.opponent.id).emit('start');
+			io.to(rooms[data.roomNumber].second.id).emit('start');
 		} else {
-			if(socket.get('time') < io.to(data.opponent.id).get('time')){
-				socket.emit('win');
-				io.to(data.opponent.id).emit('lose');
-			} else if(socket.get('time') > io.to(data.opponent.id).get('time')){
-				socket.emit('lose');
-				io.to(data.opponent.id).emit('win');
+			
+			rooms[data.roomNumber].second.time = data.time;
+			
+			//decide winner and loser
+			
+			if(rooms[data.roomNumber].first.time < rooms[data.roomNumber].second.time){
+				io.to(rooms[data.roomNumber].first.id).emit('win');
+				io.to(rooms[data.roomNumber].second.id).emit('lose');
+			} else if(rooms[data.roomNumber].first.time > rooms[data.roomNumber].second.time){
+				io.to(rooms[data.roomNumber].first.id).emit('lose');
+				io.to(rooms[data.roomNumber].second.id).emit('win');
 			} else {
-				socket.emit('draw');
-				io.to(data.opponent.id).emit('draw');
+				io.sockets.in(data.roomNumber).emit('draw');
 			}
+			
 		}
 	});
 	
-	socket.on('chat message', function (msg) {
-		io.sockets.in(roomNumber).emit('chat message', msg);
+	socket.on('chat message', function (data) {
+		io.sockets.in(data.roomNumber).emit('chat message', data.msg);
 	});
 	//io.emit('log', io.sockets.adapter.rooms);
 });
