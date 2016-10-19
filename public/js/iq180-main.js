@@ -1,5 +1,6 @@
 var probNums = [];
 var probAns = 0;
+var useNums = [];
 var score = 0;
 var time = 60;
 
@@ -7,12 +8,54 @@ $(function(){
 	generateNumbers();
 	$('#score').text(score);
 	startCountdown();
-})
+});
+
+$('#answerFormula').on('keydown', function(){
+
+	setTimeout(function(){
+		var formula = $('#answerFormula').val();
+
+		if(formula.length != 0) {
+
+			var numbers = formula.match(/\d/g).map(Number);
+
+			for (var i = 0; i < 5; i++) {
+				if (!useNums[i]) {
+					for (var j = 0; j < numbers.length; j++) {
+						if (numbers[j] == probNums[i]) {
+							$('#prob-num' + i).text('X');
+							useNums[i] = true;
+							break;
+						}
+					}
+				} else {
+					var check = false;
+					for (var j = 0; j < numbers.length; j++) {
+						if (numbers[j] == probNums[i]) {
+							var check = true;
+							break;
+						}
+					}
+					if (!check) {
+						$('#prob-num' + i).text(probNums[i]);
+						useNums[i] = false;
+					}
+				}
+			}
+		}else{
+			for (var i = 0; i < 5; i++) {
+				$('#prob-num' + i).text(probNums[i]);
+				useNums[i] = false;
+			}
+		}
+	}, 0);
+
+});
 
 $('#submitAnswer').on('click', function(){
 
-		var formula = $('#answerFormula').val();
-		var ansNums = formula.match(/\d/g).map(Number);
+	var formula = $('#answerFormula').val();
+	var ansNums = formula.match(/\d/g).map(Number);
 
 		if(isEqual(ansNums.sort(),probNums.sort())){
 			if(eval(formula) == probAns){
@@ -32,6 +75,8 @@ $('#submitAnswer').on('click', function(){
 function generateNumbers(){
 
 	$("#alert_template span").remove();
+
+	var useNums = [false, false, false, false, false];
 	
 	for(var i = 0; i < 5; i ++){
 		probNums[i] = Math.floor(Math.random() * 10);
@@ -40,6 +85,7 @@ function generateNumbers(){
 
 	var count = 0;
 	var genNums = [];
+
 	while(true){
 		if(count == 5) break;
 		var ranNum = Math.floor(Math.random() * 5);
