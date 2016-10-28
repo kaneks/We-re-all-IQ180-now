@@ -1,3 +1,6 @@
+
+
+
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -7,11 +10,17 @@ var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var url = 'mongodb://localhost:27017/netcentric';
 var bodyParser = require('body-parser');
+var React = require('react');
+var	ReactDOM = require('react-dom');
+// This is our React component, shared by server and browser thanks to browserify
+	App = React.createFactory(require('./App'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 		extended : true
 	}));
 app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/index.html');
