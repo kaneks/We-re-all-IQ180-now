@@ -1,1 +1,0 @@
-D:\MongoDB\bin\mongo.exe
