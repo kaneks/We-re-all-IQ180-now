@@ -1,0 +1,229 @@
+/* @import url('http://fonts.googleapis.com/css?family=Rationale'); */
+
+html* {
+  background-color: #000;
+}
+
+html,body{
+	max-width: 100%;
+    overflow-x: hidden
+/*     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue"!important, Helvetica, Arial, "Lucida Grande", sans-serif; */
+}
+
+.btn{
+
+}
+
+.confirmBar{
+	margin-top : 2em;
+	margin-left : 5em;
+}
+
+.middle{
+	margin : 3em;
+	border: 1px black;
+}
+
+.infomation{
+	font-size : 2em;
+}
+
+.info{
+	font-size : 2.5em;
+}
+
+#left{
+    width: 10em;
+    height: 30px;
+    background-image: url(../img/arrows_left.svg);
+    background-repeat:   no-repeat;
+    background-position: center center;
+    background-size: 100%; /* To fill the dimensions of container (button), or */
+    background-size: 3em auto; /* to specify dimensions explicitly */
+}
+#right{
+    width: 10em;
+    height: 30px;
+    background-image: url(../img/arrows_right.svg);
+    background-repeat:   no-repeat;
+    background-position: center center;
+    background-size: 100%; /* To fill the dimensions of container (button), or */
+    background-size: 3em auto; /* to specify dimensions explicitly */
+}
+#search{
+    width: 30px;
+    height: 30px;
+    background-image: url(../img/search.svg);
+    background-repeat:   no-repeat;
+    background-position: center center;
+    background-size: 100%; /* To fill the dimensions of container (button), or */
+    background-size: 30px auto; /* to specify dimensions explicitly */
+}
+#bottomseatbox{
+	padding : 3em;
+	margin : 3em;
+}
+
+.currentempty{
+	font-size: 1.5em;
+}
+
+
+#box_lobby{
+    background-color:#e0e0e0;
+    color:black;
+    font-size: 4.4em;
+    text-align: center;
+    margin: 0 auto;
+}
+#box_time{
+	text-align:right;
+    background-color:#911d17;
+    color:white;
+    margin: 0;
+    height: 2.5em;
+    font-size: 3.2em;
+    text-align: right;
+}
+
+#header {
+    background-color:#a50b0b;
+    color:white;
+    padding:0.417em;
+    height: 2.3em;
+    font-size: 1.3em;
+}
+#section {
+}
+#majorRank {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:30em;
+    width:41.667em;
+    float:right;
+    padding:0.417em;
+  }
+#footer {
+    color:white;
+    height: 9em;
+    clear:both;
+    text-align:center;
+    vertical-align: center;
+    padding:1.5em;
+}
+#btnPrevNext{
+  color:black;
+  vertical-align: bottom;
+}
+#btnAccept{
+  color:white;
+  margin-right: 2em;
+  font-size: 2em;
+  width: 15em;  height: 3em;
+}
+#btnDecline{
+  color: white;
+    margin-right: 3em;
+	 font-size: 2em;
+  width: 10em;  height: 3em;
+}
+#lateBtn{
+  color:black;
+    margin-right: 3em;
+	 font-size: 2em;
+  width: 5em;  height: 3em;
+}
+
+.majorlist {
+  margin-right: 0.6em;
+  font-size: 1em;
+
+}
+.finalmajor{
+	font-size : 10em;
+}
+#attend{
+  color: brown;
+}
+.aQueue{
+  margin-right: 1em;
+}
+
+/* this import should be first line in css file else add as <link> in html*/
+.widget-clock.blue-light .digital {
+  text-align: center;
+}
+.widget-clock.blue-light .time {
+  font-family: 'Rationale', sans-serif;
+  font-size: 3.0em;
+  color: #1da4eb;
+}
+#topStat {
+    display: inline-block;
+}
+#wQueue{
+  display: inline-block;
+  background-color: #eee;
+}
+#seatsLeft{
+  border: 1px solid #ddd;
+  text-align: center;
+  border-collapse: collapse;
+  width: 70%;
+  padding: 2em;
+}
+
+.color-green {
+  color: #0bd44b;
+}
+
+.color-yellow {
+  color: #ffab0c;
+}
+
+.color-red {
+  color: red;
+}
+
+.color-black{
+  color: black;
+}
+
+.color-grey{
+  color: #bfbfbf;
+}
+
+.major-box {
+    /*padding: 25px;*/
+    /*border: 25px solid navy;*/
+    padding: 2em 5px;
+	margin: 5px 0px;	
+}
+.major-box .background .number{
+  font-size: 5.5em;
+}
+.major-box .background .name{
+  font-size: 4.2em;
+}
+.major-box .background .image{
+  max-width:47%; padding:20px;
+  display: block;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+}
+
+.box_time {
+	font-size: 0.2 em;
+}
+
+#timer {
+	text-align: center;
+}
+
+#remaining-seat {
+	font-size: 3em;
+}
+
+#search-bar-header {
+}
