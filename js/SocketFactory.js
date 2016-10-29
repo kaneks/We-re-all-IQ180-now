@@ -3,11 +3,13 @@ myapp.factory('socketio', socketio);
 function socketio(){
 
     var socket = io.connect();
-
+    var username = 'test';
     var service = {
 
     };
 
+    service.saveUserName = saveUserName;
+    service.getUserName = getUserName;
     service.join = join;
     service.ready = ready;
     service.assignRoom = assignRoom;
@@ -17,6 +19,14 @@ function socketio(){
     service.lose = lose;
 
     return service;
+
+    function saveUserName(name){
+        username = name;
+    }
+
+    function getUserName(){
+        return username;
+    }
 
     function join(name){
         socket.emit('join', name);

@@ -7,7 +7,9 @@ myapp.controller('PlayCtrl', function ($scope, socketio) {
 	$scope.num = [1, 2, 3, 4, 5];
 	$scope.ans = 'some num';
 
-	socketio.join('Mickey');
+	var playername = socketio.getUserName();
+
+	socketio.join(playername);
 	socketio.assignRoom();
 	
 	//CHAT AND LOG

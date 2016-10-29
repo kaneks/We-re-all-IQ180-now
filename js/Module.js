@@ -11,6 +11,6 @@ myapp.config(function($routeProvider){
         controller: 'PlayCtrl'
     })
     .otherwise({
-        redirectTo: '/play'
+        redirectTo: '/home'
     })
 });

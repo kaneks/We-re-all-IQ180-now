@@ -1,9 +1,8 @@
-myapp.controller("HomeCtrl", function ($scope) {
+myapp.controller("HomeCtrl", function ($scope, $location, socketio) {
 
-	$("#loginButton").click(function () {
-		$.get("u/" + $("#loginTextbox").val(), function (data) {
-			console.log(data);
-		});
-	});
+	$scope.signIn = function(){
+		socketio.saveUserName($scope.user);
+		$location.path('/play');
+	}
 
 })
