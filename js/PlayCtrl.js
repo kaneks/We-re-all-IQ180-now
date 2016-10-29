@@ -2,7 +2,7 @@
 ##	This is the controller for the game page.
  */
 
-myapp.controller('PlayCtrl', function ($scope) {
+myapp.controller('PlayCtrl', function ($scope, socketio) {
 
 	$scope.num = [1, 2, 3, 4, 5];
 	$scope.ans = 'some num';
@@ -12,8 +12,13 @@ myapp.controller('PlayCtrl', function ($scope) {
 	var myNumber;
 	var roomNumber;
 
+	$scope.joinGame = function(){
+		socketio.join('Mickey');
+	}
+	
 	//CHAT AND LOG
 
+	/*
 	$('form').submit(function () {
 		socket.emit('chat message', {
 			'roomNumber' : roomNumber,
@@ -29,5 +34,6 @@ myapp.controller('PlayCtrl', function ($scope) {
 	socket.on('log', function (msg) {
 		console.log(msg);
 	});
-	*/
+*/
+
 })
