@@ -1,6 +1,3 @@
-
-
-
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -76,13 +73,13 @@ app.post('/u', function (req, res) {
 						});
 					} else {
 						console.log('Inserted ' + user.name + ' into the "users" collection.');
+						return res.send({
+							"status" : "0"
+						});
 					}
 					db.close();
 				});
 			}
-		});
-		return res.send({
-			"status" : "0"
 		});
 	}
 });
@@ -112,7 +109,7 @@ app.get('/u/:name', function (req, res) {
 				} else {
 					return res.send({
 						"status" : "1",
-						"message" : err
+						"message" : "User not found"
 					});
 				}
 				db.close();
