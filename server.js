@@ -16,30 +16,28 @@ app.use(bodyParser.urlencoded({
 	}));
 app.use(express.static(__dirname));
 
-
-
 app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/index.html');
 });
 
 /*
 app.get('/time', function (req, res) {
-	var date = new Date();
-	var hour = date.getHours();
-	hour = (hour < 10 ? "0" : "") + hour;
-	var min = date.getMinutes();
-	min = (min < 10 ? "0" : "") + min;
-	var sec = date.getSeconds();
-	sec = (sec < 10 ? "0" : "") + sec;
-	var year = date.getFullYear();
-	var month = date.getMonth() + 1;
-	month = (month < 10 ? "0" : "") + month;
-	var day = date.getDate();
-	day = (day < 10 ? "0" : "") + day;
-	var ans = "[{" + year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec + "}]";
-	return res.send(ans);
+var date = new Date();
+var hour = date.getHours();
+hour = (hour < 10 ? "0" : "") + hour;
+var min = date.getMinutes();
+min = (min < 10 ? "0" : "") + min;
+var sec = date.getSeconds();
+sec = (sec < 10 ? "0" : "") + sec;
+var year = date.getFullYear();
+var month = date.getMonth() + 1;
+month = (month < 10 ? "0" : "") + month;
+var day = date.getDate();
+day = (day < 10 ? "0" : "") + day;
+var ans = "[{" + year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec + "}]";
+return res.send(ans);
 });
-*/
+ */
 
 var userModel = {
 	name : '',
@@ -104,18 +102,18 @@ app.get('/u/:name', function (req, res) {
 			}, function (err, item) {
 				if (err) {
 					console.log(err);
-					return res.send([{
-								"status" : "0"
-							}
-						]);
+					return res.send({
+						"status" : "1",
+						"message" : err
+					});
 				} else if (item != null) {
-					console.log('Found:', item);
+					//console.log('Found:', item);
 					return res.send(item);
 				} else {
-					return res.send([{
-								"status" : "0"
-							}
-						]);
+					return res.send({
+						"status" : "1",
+						"message" : err
+					});
 				}
 				db.close();
 			});
