@@ -27,7 +27,7 @@ function socketio(){
         socket.emit('playerReady', roomNumber);
     }
 
-    function assignRoom(assignRoom){
+    function assignRoom(){
         socket.on('assignRoom', function (data) {
             console.log(data.room);
             roomNumber = data.roomNumber;
