@@ -1,5 +1,7 @@
 var myapp = angular.module("myapp", ['ngRoute']);
 
+
+
 myapp.config(function($routeProvider){
     $routeProvider
     .when('/home',{
@@ -10,10 +12,6 @@ myapp.config(function($routeProvider){
         templateUrl: 'app/play.html',
         controller: 'PlayCtrl'
     })
-        .when('/home',{
-            templateUrl: 'app/home.html',
-            controller: 'HomeCtrl'
-        })
         .when('/ready',{
             templateUrl: 'app/ready.html',
             controller: 'ReadyCtrl'
