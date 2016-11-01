@@ -10,6 +10,20 @@ myapp.config(function($routeProvider){
         templateUrl: 'app/play.html',
         controller: 'PlayCtrl'
     })
+        .when('/home',{
+            templateUrl: 'app/home.html',
+            controller: 'HomeCtrl'
+        })
+        .when('/ready',{
+            templateUrl: 'app/ready.html',
+            controller: 'ReadyCtrl'
+
+        }).when('/waiting',{
+            templateUrl:'app/waiting.html'
+    })
+        .when('/winlose',{
+            templateUrl:'app/winlose.html'
+        })
     .otherwise({
         redirectTo: '/home'
     })

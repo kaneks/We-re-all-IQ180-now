@@ -180,6 +180,7 @@ io.on('connection', function (socket) {
 			rooms[roomCount] = new Object();
 			rooms[roomCount].first = new Object();
 			rooms[roomCount].second = new Object();
+			rooms[roomCount].roomNumber = roomCount;
 			if (Math.random() < 0.5) {
 				rooms[roomCount].first.id = socket.id;
 				rooms[roomCount].first.name = name;

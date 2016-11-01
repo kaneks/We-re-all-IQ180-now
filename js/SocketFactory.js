@@ -4,6 +4,8 @@ function socketio(){
 
     var socket = io.connect();
     var username = 'test';
+    var roomNum;
+
     var service = {
 
     };
@@ -15,6 +17,7 @@ function socketio(){
     service.assignRoom = assignRoom;
     service.startGame = startGame;
     service.waitGame = waitGame;
+    service.playerReady =playerReady;
     service.win = win;
     service.lose = lose;
 
@@ -28,19 +31,23 @@ function socketio(){
         return username;
     }
 
+
+
     function join(name){
         socket.emit('join', name);
         console.log(name);
     }
 
-    function ready(roomNumber){
+    function playerReady(){
         socket.emit('playerReady', roomNumber);
+        console.log(roomNumber);
     }
-
+    //back end assign room
     function assignRoom(){
         socket.on('assignRoom', function (data) {
             console.log(data.room);
             roomNumber = data.roomNumber;
+            saveRoomNumber(roomNumber);
             if (socket.id == data.room.first.id) {
                 opponentName = data.room.second.name;
             } else {
@@ -76,6 +83,10 @@ function socketio(){
 
     function lose(){
         //LOSE
+    }
+
+    function saveRoomNumber(num){
+        roomNum = num;
     }
 
 }
