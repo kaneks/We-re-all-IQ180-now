@@ -14,15 +14,20 @@ myapp.controller("ReadyCtrl",['$rootScope','$scope','$location','socketio',funct
         console.log("it is working");
     });
 
-    $scope.$on('playOrWait', function (isPlay) {
-        console.log('playing or waiting');
-        if(isPlay){
-            $location.path('/play');
-        }else{
-           $location.path('/waiting');
-        }
+    $scope.$on('play', function () {
+        console.log('playing');
+        
+        $location.path('/play');
+        
+          
+        
     });
 
-
+	$scope.$on('waiting', function () {
+        console.log('waiting');
+        
+           $location.path('/waiting');
+ 
+    });
 
 }]);

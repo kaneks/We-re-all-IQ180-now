@@ -101,7 +101,7 @@ function socketio($rootScope){
             //     'time' : 50000
             // });
             console.log('will start game');
-            $rootScope.$broadcast('playOrWait', true);
+            $rootScope.$broadcast('play');
         });
     }
 
@@ -110,7 +110,7 @@ function socketio($rootScope){
         socket.on('wait',function(){
             //will do later
             console.log("will wait");
-            $rootScope.$broadcast('playOrWait', false);
+            $rootScope.$broadcast('waiting');
         });
     }
 
