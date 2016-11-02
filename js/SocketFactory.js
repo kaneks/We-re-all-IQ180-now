@@ -3,18 +3,16 @@ myapp.factory('socketio', ['$rootScope',socketio]);
 function socketio($rootScope){
 
     var socket = io.connect();
-    var username = 'test';
+    var name = 'test';
     var roomNum;
 
 
-    var service = {
-
-    };
+    var service = {};
 
     //emits 'ready' when is ready
 
-    service.saveUserName = saveUserName;
-    service.getUserName = getUserName;
+    service.setName = setName;
+    service.getName = getName;
     service.join = join;
     service.ready = ready;
     service.assignRoom = assignRoom;
@@ -40,12 +38,12 @@ function socketio($rootScope){
     }
 
 
-    function saveUserName(name){
-        username = name;
+    function setName(name){
+        this.name = name;
     }
 
-    function getUserName(){
-        return username;
+    function getName(){
+        return this.name;
     }
 
 
@@ -101,7 +99,9 @@ function socketio($rootScope){
             //     'time' : 50000
             // });
             console.log('will start game');
-            $rootScope.$broadcast('play');
+			setTimeout(function() {
+				$rootScope.$broadcast('play');
+			}, 1000);
         });
     }
 
@@ -110,7 +110,9 @@ function socketio($rootScope){
         socket.on('wait',function(){
             //will do later
             console.log("will wait");
+			setTimeout(function() {
             $rootScope.$broadcast('waiting');
+			}, 1000);
         });
     }
 

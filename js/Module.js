@@ -6,15 +6,16 @@ myapp.config(function ($routeProvider) {
 		templateUrl : 'app/home.html',
 		controller : 'HomeCtrl'
 	})
-	.when('/play', {
-		templateUrl : 'app/play.html',
-		controller : 'PlayCtrl'
-	})
 	.when('/ready', {
 		templateUrl : 'app/ready.html',
 		controller : 'ReadyCtrl'
 
-	}).when('/waiting', {
+	})
+	.when('/play', {
+		templateUrl : 'app/play.html',
+		controller : 'PlayCtrl'
+	})
+	.when('/waiting', {
 		templateUrl : 'app/waiting.html',
 		controller : 'WaitCtrl'
 	})
