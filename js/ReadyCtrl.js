@@ -16,7 +16,7 @@ myapp.controller("ReadyCtrl",['$rootScope','$scope','$location','socketio',funct
 
     $scope.$on('play', function () {
         console.log('playing');
-        
+        $scope.readyMsg = "The other player is ready";
         $location.path('/play');
         
           
@@ -25,7 +25,7 @@ myapp.controller("ReadyCtrl",['$rootScope','$scope','$location','socketio',funct
 
 	$scope.$on('waiting', function () {
         console.log('waiting');
-        
+        $scope.readyMsg = "The other player is ready";
            $location.path('/waiting');
  
     });
