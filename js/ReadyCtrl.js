@@ -2,6 +2,7 @@ myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', 
 
 			var play = null;
 
+
 			$scope.playGame = function () {
 				socketio.playerReady();
 				$scope.readyMsg = "The other player is ready";
@@ -17,6 +18,7 @@ myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', 
 			$scope.$on('play', function () {
 				console.log('playing');
 				$rootScope.$apply(function () {
+                    $rootScope.firstPlayer = true;
 					$location.path('/play');
 				});
 				console.log($location.path());
@@ -25,6 +27,7 @@ myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', 
 			$scope.$on('waiting', function () {
 				console.log('waiting');
 				$rootScope.$apply(function () {
+                    $rootScope.firstPlayer = false;
 					$location.path('/waiting');
 				});
 				console.log($location.path());

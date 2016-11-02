@@ -22,6 +22,8 @@ function socketio($rootScope){
     service.win = win;
     service.lose = lose;
     service.init = init;
+    service.submitStats = submitStats;
+    service.draw = draw;
 
     return service;
 
@@ -105,6 +107,14 @@ function socketio($rootScope){
         });
     }
 
+    //submit room and time
+    function submitStats(time) {
+        socket.emit('submit', {
+                 'roomNumber' : roomNum,
+                 'time' : time
+             });
+    }
+
     function waitGame(){
         //SET PAGE TO WAIT
         socket.on('wait',function(){
@@ -119,17 +129,22 @@ function socketio($rootScope){
     function win(){
         //WIN
         socket.on('win',function(){
-
+            $rootScope.emit('ending', 'You win!!');
         });
     }
 
     function lose(){
         //LOSE
         socket.on('lose',function(){
-
+            $rootScope.emit('ending', 'You lose!!');
         });
     }
 
+    function draw() {
+        socket.on('draw', function () {
+            $rootScope.emit('ending', 'It\'s a draw');
+        });
+    }
 
     function setRoomNumber(num){
         roomNum = num;
