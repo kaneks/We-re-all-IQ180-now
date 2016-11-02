@@ -26,4 +26,4 @@ myapp.controller('PlayCtrl', function ($scope,$location, socketio) {
 	});
 */
 
-})
+}]);

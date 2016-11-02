@@ -18,9 +18,9 @@
           |
           Answer: <span id="prob-answer">{{ans}}</span>
 				</p>
-				<p><input type="text" placeholder="Input formula here"/></p>
+				<p><input ng-model="ansField" type="text" class="form-control" id="ans"/></p>
 				<h6>You can only use +, -, *, and /</h6>
-				<button class = "btn btn-primary" type = "button" ng-click="">Test Join</button>
+				<button ng-click="checkAns()" type="button" class="btn btn-primary">Submit</button>
 			</div>
 		</div>
 	</div>
