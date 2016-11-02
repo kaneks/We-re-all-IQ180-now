@@ -173,6 +173,7 @@ var rooms = [];
 var roomCount = 0;
 io.on('connection', function (socket) {
 	socket.on('join', function (name) {
+		console.log('Received \'join\' from ' + name);
 		if (io.sockets.adapter.rooms[roomCount] && io.sockets.adapter.rooms[roomCount].length == 2)
 			roomCount++;
 		socket.join(roomCount);
@@ -200,42 +201,58 @@ io.on('connection', function (socket) {
 				'roomNumber' : roomCount,
 				'room' : rooms[roomCount]
 			});
+			console.log('Emitted \'assignRoom\' to ' + rooms[roomCount].first.name);
+			console.log('Emitted \'assignRoom\' to ' + rooms[roomCount].second.name);
 			io.sockets.in(roomCount).emit('gameReady');
+			console.log('Emitted \'gameReady\' to ' + rooms[roomCount].first.name);
+			console.log('Emitted \'gameReady\' to ' + rooms[roomCount].second.name);
 			rooms[roomCount].first.ready = false;
 			rooms[roomCount].second.ready = false;
 		}
 	});
 	socket.on('playerReady', function (roomNumber) {
-		//console.log(rooms[roomNumber].first.id);
 		if (socket.id == rooms[roomNumber].first.id) {
+			console.log('Received \'playerReady\' from ' + rooms[roomNumber].first.name);
 			rooms[roomNumber].first.ready = true;
 		} else {
+			console.log('Received \'playerReady\' from ' + rooms[roomNumber].second.name);
 			rooms[roomNumber].second.ready = true;
 		}
 		if (rooms[roomNumber].first.ready && rooms[roomNumber].second.ready) {
-			console.log('emitted');
 			io.to(rooms[roomNumber].first.id).emit('start');
+			console.log('Emitted \'start\' to ' + rooms[roomNumber].first.name);
 			io.to(rooms[roomNumber].second.id).emit('wait');
+			console.log('Emitted \'wait\' to ' + rooms[roomNumber].second.name);
 		}
 	});
 	socket.on('submit', function (data) {
 		if (socket.id == rooms[data.roomNumber].first.id) {
+			console.log('Received \'submit\' from ' + rooms[roomNumber].first.name);
 			rooms[data.roomNumber].first.time = data.time;
 			socket.emit('wait');
+			console.log('Emitted \'wait\' to ' + rooms[roomNumber].first.name);
 			io.to(rooms[data.roomNumber].second.id).emit('start');
+			console.log('Emitted \'start\' to ' + rooms[roomNumber].second.name);
 		} else {
+			console.log('Received \'submit\' from ' + rooms[roomNumber].second.name);
 			rooms[data.roomNumber].second.time = data.time;
 			if (rooms[data.roomNumber].first.time < rooms[data.roomNumber].second.time) {
 				io.to(rooms[data.roomNumber].first.id).emit('win');
 				io.to(rooms[data.roomNumber].second.id).emit('lose');
-				updateResult(rooms[data.roomNumber].first.name, rooms[data.roomNumber].second.name, false);
+				console.log('Emitted \'win\' to ' + rooms[roomCount].first.name);
+				console.log('Emitted \'lose\' to ' + rooms[roomCount].second.name);
+				//updateResult(rooms[data.roomNumber].first.name, rooms[data.roomNumber].second.name, false);
 			} else if (rooms[data.roomNumber].first.time > rooms[data.roomNumber].second.time) {
 				io.to(rooms[data.roomNumber].first.id).emit('lose');
 				io.to(rooms[data.roomNumber].second.id).emit('win');
-				updateResult(rooms[data.roomNumber].second.name, rooms[data.roomNumber].first.name, false);
+				console.log('Emitted \'lose\' to ' + rooms[roomCount].first.name);
+				console.log('Emitted \'win\' to ' + rooms[roomCount].second.name);
+				//updateResult(rooms[data.roomNumber].second.name, rooms[data.roomNumber].first.name, false);
 			} else {
 				io.sockets.in(data.roomNumber).emit('draw');
-				updateResult(rooms[data.roomNumber].first.name, rooms[data.roomNumber].second.name, true);
+				console.log('Emitted \'draw\' to ' + rooms[roomCount].first.name);
+				console.log('Emitted \'draw\' to ' + rooms[roomCount].second.name);
+				//updateResult(rooms[data.roomNumber].first.name, rooms[data.roomNumber].second.name, true);
 			}
 		}
 	});
