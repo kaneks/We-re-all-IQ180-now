@@ -177,9 +177,9 @@ io.on('connection', function (socket) {
 			roomCount++;
 		socket.join(roomCount);
 		if (io.sockets.adapter.rooms[roomCount].length == 1) {
-			rooms[roomCount] = new Object();
-			rooms[roomCount].first = new Object();
-			rooms[roomCount].second = new Object();
+			rooms[roomCount] = {};
+			rooms[roomCount].first = {};
+			rooms[roomCount].second = {};
 			rooms[roomCount].roomNumber = roomCount;
 			if (Math.random() < 0.5) {
 				rooms[roomCount].first.id = socket.id;
@@ -189,7 +189,7 @@ io.on('connection', function (socket) {
 				rooms[roomCount].second.name = name;
 			}
 		} else {
-			if (rooms[roomCount].first.id != '') {
+			if (rooms[roomCount].first.id != null) {
 				rooms[roomCount].second.id = socket.id;
 				rooms[roomCount].second.name = name;
 			} else {
@@ -206,18 +206,20 @@ io.on('connection', function (socket) {
 		}
 	});
 	socket.on('playerReady', function (roomNumber) {
+		//console.log(rooms[roomNumber].first.id);
 		if (socket.id == rooms[roomNumber].first.id) {
 			rooms[roomNumber].first.ready = true;
 		} else {
 			rooms[roomNumber].second.ready = true;
 		}
 		if (rooms[roomNumber].first.ready && rooms[roomNumber].second.ready) {
+			console.log('emitted');
 			io.to(rooms[roomNumber].first.id).emit('start');
 			io.to(rooms[roomNumber].second.id).emit('wait');
 		}
 	});
 	socket.on('submit', function (data) {
-		if (socket.id == rooms[roomNumber].first.id) {
+		if (socket.id == rooms[data.roomNumber].first.id) {
 			rooms[data.roomNumber].first.time = data.time;
 			socket.emit('wait');
 			io.to(rooms[data.roomNumber].second.id).emit('start');
@@ -304,6 +306,6 @@ function updateResult(winnerName, loserName, draw) {
 	});
 }
 
-http.listen(80, function () {
+http.listen(3000, function () {
 	console.log('listening on 80');
 });

@@ -31,7 +31,7 @@ function socketio($rootScope){
         assignRoom();
         ready();
         startGame();
-
+        waitGame();
         win();
         lose();
 
@@ -57,16 +57,17 @@ function socketio($rootScope){
     }
 
     function playerReady(){
-        socket.emit('playerReady', roomNumber);
-        roomNum= roomNumber;
-        console.log(roomNumber);
+        console.log('player is ready');
+        socket.emit('playerReady', roomNum);
+        console.log(roomNum);
+
     }
     //back end assign room
     function assignRoom(){
         socket.on('assignRoom', function (data) {
-            console.log(data.room);
+           console.log(data.room);
             roomNumber = data.roomNumber;
-            saveRoomNumber(roomNumber);
+            setRoomNumber(roomNumber);
             if (socket.id == data.room.first.id) {
                 opponentName = data.room.second.name;
             } else {
@@ -82,7 +83,12 @@ function socketio($rootScope){
         socket.on('gameReady', function () {
             //UNLOCK READY BUTTON
             console.log('isReady');
-            $rootScope.$broadcast('buttonReady');
+            setTimeout(function() {
+                //your code to be executed after 1 second
+                $rootScope.$broadcast('buttonReady');
+            }, 2000);
+            // $rootScope.$broadcast('buttonReady');
+
         });
     }
 
@@ -90,10 +96,12 @@ function socketio($rootScope){
         socket.on('start', function () {
             //START GAME AND RECORD TIME
             //EMIT TIME (miliseconds) TO SERVER ONCE PLAYER FINISHES, EMIT 60000 IF PLAYER DOESNT FINISH ON WITHIN 1 MINUTE
-            socket.emit('submit', {
-                'roomNumber' : roomNumber,
-                'time' : 50000
-            });
+            // socket.emit('submit', {
+            //     'roomNumber' : roomNumber,
+            //     'time' : 50000
+            // });
+            console.log('will start game');
+            $rootScope.$broadcast('playOrWait', true);
         });
     }
 
@@ -101,6 +109,8 @@ function socketio($rootScope){
         //SET PAGE TO WAIT
         socket.on('wait',function(){
             //will do later
+            console.log("will wait");
+            $rootScope.$broadcast('playOrWait', false);
         });
     }
 
@@ -119,7 +129,7 @@ function socketio($rootScope){
     }
 
 
-    function saveRoomNumber(num){
+    function setRoomNumber(num){
         roomNum = num;
     }
 

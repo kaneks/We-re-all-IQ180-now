@@ -17,7 +17,8 @@ myapp.config(function($routeProvider){
             controller: 'ReadyCtrl'
 
         }).when('/waiting',{
-            templateUrl:'app/waiting.html'
+            templateUrl:'app/waiting.html',
+            controller: 'WaitCtrl'
     })
         .when('/winlose',{
             templateUrl:'app/winlose.html'
