@@ -59,10 +59,10 @@ function socketio(){
         socket.on('start', function () {
             //START GAME AND RECORD TIME
             //EMIT TIME (miliseconds) TO SERVER ONCE PLAYER FINISHES, EMIT 60000 IF PLAYER DOESNT FINISH ON WITHIN 1 MINUTE
-            socket.emit('submit', {
-                'roomNumber' : roomNumber,
-                'time' : 50000
-            });
+            // socket.emit('submit', {
+            //     'roomNumber' : roomNumber,
+            //     'time' : 50000
+            // });
         });
     }
 

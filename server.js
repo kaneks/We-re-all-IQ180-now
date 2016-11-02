@@ -175,11 +175,13 @@ io.on('connection', function (socket) {
 	socket.on('join', function (name) {
 		if (io.sockets.adapter.rooms[roomCount] && io.sockets.adapter.rooms[roomCount].length == 2)
 			roomCount++;
+
 		socket.join(roomCount);
 		if (io.sockets.adapter.rooms[roomCount].length == 1) {
 			rooms[roomCount] = new Object();
 			rooms[roomCount].first = new Object();
 			rooms[roomCount].second = new Object();
+			rooms[roomCount].roomNumber = roomCount;
 			if (Math.random() < 0.5) {
 				rooms[roomCount].first.id = socket.id;
 				rooms[roomCount].first.name = name;
@@ -188,7 +190,7 @@ io.on('connection', function (socket) {
 				rooms[roomCount].second.name = name;
 			}
 		} else {
-			if (rooms[roomCount].first.id != '') {
+			if (rooms[roomCount].first.id != null) {
 				rooms[roomCount].second.id = socket.id;
 				rooms[roomCount].second.name = name;
 			} else {
@@ -303,6 +305,6 @@ function updateResult(winnerName, loserName, draw) {
 	});
 }
 
-http.listen(80, function () {
+http.listen(3000, function () {
 	console.log('listening on 80');
 });
