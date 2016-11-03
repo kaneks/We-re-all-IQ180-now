@@ -236,13 +236,13 @@ io.on('connection', function (socket) {
 		} else {
 			console.log('Received \'submit\' from ' + rooms[data.roomNumber].second.name);
 			rooms[data.roomNumber].second.time = data.time;
-			if (rooms[data.roomNumber].first.time < rooms[data.roomNumber].second.time) {
+			if (rooms[data.roomNumber].first.time > rooms[data.roomNumber].second.time) {
 				io.to(rooms[data.roomNumber].first.id).emit('win');
 				io.to(rooms[data.roomNumber].second.id).emit('lose');
 				console.log('Emitted \'win\' to ' + rooms[data.roomNumber].first.name);
 				console.log('Emitted \'lose\' to ' + rooms[data.roomNumber].second.name);
 				//updateResult(rooms[data.roomNumber].first.name, rooms[data.roomNumber].second.name, false);
-			} else if (rooms[data.roomNumber].first.time > rooms[data.roomNumber].second.time) {
+			} else if (rooms[data.roomNumber].first.time < rooms[data.roomNumber].second.time) {
 				io.to(rooms[data.roomNumber].first.id).emit('lose');
 				io.to(rooms[data.roomNumber].second.id).emit('win');
 				console.log('Emitted \'lose\' to ' + rooms[data.roomNumber].first.name);

@@ -26,7 +26,7 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 				//time.round(); gonna need to put back stuff if implementation failed
 				console.log(time);
 				socketio.submitStats(time);
-				
+
 
 			//	time.toFixed(1);
 			}else{
