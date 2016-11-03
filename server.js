@@ -227,31 +227,31 @@ io.on('connection', function (socket) {
 	});
 	socket.on('submit', function (data) {
 		if (socket.id == rooms[data.roomNumber].first.id) {
-			console.log('Received \'submit\' from ' + rooms[roomNumber].first.name);
+			console.log('Received \'submit\' from ' + rooms[data.roomNumber].first.name);
 			rooms[data.roomNumber].first.time = data.time;
 			socket.emit('wait');
-			console.log('Emitted \'wait\' to ' + rooms[roomNumber].first.name);
+			console.log('Emitted \'wait\' to ' + rooms[data.roomNumber].first.name);
 			io.to(rooms[data.roomNumber].second.id).emit('start');
-			console.log('Emitted \'start\' to ' + rooms[roomNumber].second.name);
+			console.log('Emitted \'start\' to ' + rooms[data.roomNumber].second.name);
 		} else {
-			console.log('Received \'submit\' from ' + rooms[roomNumber].second.name);
+			console.log('Received \'submit\' from ' + rooms[data.roomNumber].second.name);
 			rooms[data.roomNumber].second.time = data.time;
 			if (rooms[data.roomNumber].first.time < rooms[data.roomNumber].second.time) {
 				io.to(rooms[data.roomNumber].first.id).emit('win');
 				io.to(rooms[data.roomNumber].second.id).emit('lose');
-				console.log('Emitted \'win\' to ' + rooms[roomCount].first.name);
-				console.log('Emitted \'lose\' to ' + rooms[roomCount].second.name);
+				console.log('Emitted \'win\' to ' + rooms[data.roomNumber].first.name);
+				console.log('Emitted \'lose\' to ' + rooms[data.roomNumber].second.name);
 				//updateResult(rooms[data.roomNumber].first.name, rooms[data.roomNumber].second.name, false);
 			} else if (rooms[data.roomNumber].first.time > rooms[data.roomNumber].second.time) {
 				io.to(rooms[data.roomNumber].first.id).emit('lose');
 				io.to(rooms[data.roomNumber].second.id).emit('win');
-				console.log('Emitted \'lose\' to ' + rooms[roomCount].first.name);
-				console.log('Emitted \'win\' to ' + rooms[roomCount].second.name);
+				console.log('Emitted \'lose\' to ' + rooms[data.roomNumber].first.name);
+				console.log('Emitted \'win\' to ' + rooms[data.roomNumber].second.name);
 				//updateResult(rooms[data.roomNumber].second.name, rooms[data.roomNumber].first.name, false);
 			} else {
 				io.sockets.in(data.roomNumber).emit('draw');
-				console.log('Emitted \'draw\' to ' + rooms[roomCount].first.name);
-				console.log('Emitted \'draw\' to ' + rooms[roomCount].second.name);
+				console.log('Emitted \'draw\' to ' + rooms[data.roomNumber].first.name);
+				console.log('Emitted \'draw\' to ' + rooms[data.roomNumber].second.name);
 				//updateResult(rooms[data.roomNumber].first.name, rooms[data.roomNumber].second.name, true);
 			}
 		}
