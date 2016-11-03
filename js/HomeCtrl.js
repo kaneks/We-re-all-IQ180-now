@@ -3,6 +3,7 @@ myapp.controller("HomeCtrl", ['$rootScope','$scope','$location','socketio',funct
 	$scope.signIn = function(){
 		socketio.setName($scope.user);
 		socketio.join($scope.user);
+		$rootScope.greetName = 'Welcome, '+$scope.user;
 		$location.path('/ready');
 	};
 

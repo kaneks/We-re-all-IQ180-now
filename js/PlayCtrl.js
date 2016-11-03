@@ -41,7 +41,7 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 		if(time <0){
 			//code for exiting
 			//need to find a way to check if still have to wait for other player
-			socketio.submitStats(60000);
+			socketio.submitStats(0);
 		}else if(!subCorrect){
 			$('#time').text(time/1000);
 			time= time - 100;
