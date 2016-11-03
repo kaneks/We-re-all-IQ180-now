@@ -8,26 +8,9 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 	//will need to implement the score later.
 	var score = null;
 	var time = 60;
-	var ans = null;
-	var probNums = null;
-	var settings = {
-		"async": true,
-		"crossDomain": true,
-		"url": "http://localhost:80/question",
-		"method": "GET",
-		"headers": {
-			"cache-control": "no-cache",
-			"postman-token": "1acc73f6-96cc-809e-aebd-d6b2726566d6"
-		}
-	}
+	var ans = $rootScope.ans;
+	var probNums = $rootScope.probNums;
 
-	$.ajax(settings).done(function (response) {
-		console.log('hello');
-		$scope.num = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];
-		$scope.ans = response.Ans;
-		ans = response.Ans;
-		probNums = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];
-	});
 
 	$scope.checkAns = function(){
         var ansFormula = $scope.ansField;
@@ -40,7 +23,7 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 				subCorrect=true;
 				time *= 1000;
 				socketio.submitStats(time);
-				if($rootScope.firstPlayer){
+				if(!$rootScope.haswaited){
 					$rootScope.$apply(function () {
 						$location.path('/waiting');
 					});
@@ -61,7 +44,7 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 			//code for exiting
 			//need to find a way to check if still have to wait for other player
 			socketio.submitStats(60000);
-			if($rootScope.firstPlayer){
+			if(!$rootScope.haswaited){
 				$rootScope.$apply(function () {
 					$location.path('/waiting');
 				});
@@ -80,27 +63,26 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 	startCountdown();
 
 	//for testing code
-	function startTest() {
-		if($rootScope.firstPlayer){
-			console.log('you are first player')
-		}else{
 
-		}
-	}
-
-	startTest();
 
 	//go to the end screen;
 	function goToEnd() {
-		$scope.$on('ending', function (event, result) {
-			$rootScope.playerStatus = result;
-			console.log(result);
+		$scope.$on('ending', function () {
 			$rootScope.$apply(function () {
 				$location.path('/winlose');
 			});
 
 		});
 	}
+
+
+	$scope.$on('waiting', function () {
+		console.log('waiting');
+		$rootScope.$apply(function () {
+			$location.path('/waiting');
+		});
+		console.log($location.path());
+	});
 	//CHAT AND LOG
 
 	/*

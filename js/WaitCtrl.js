@@ -3,17 +3,19 @@
  */
 myapp.controller("WaitCtrl",['$rootScope','$scope','$location','socketio',function ($rootScope,$scope, $location, socketio) {
 
-    function startTest() {
-        if(!$rootScope.firstPlayer){
-            console.log('you are second player');
-        }else{
+    $rootScope.haswaited = true;
 
-        }
-    }
 
-    $scope.$on('ending', function (event, result) {
-        $rootScope.playerStatus = result;
-        console.log(result);
+
+    $scope.$on('play', function () {
+        console.log('playing');
+        $rootScope.$apply(function () {
+            $location.path('/play');
+        });
+        console.log($location.path());
+    });
+
+    $scope.$on('ending', function () {
         $rootScope.$apply(function () {
            $location.path('/winlose');
         });
@@ -22,7 +24,7 @@ myapp.controller("WaitCtrl",['$rootScope','$scope','$location','socketio',functi
 
 
 
-    startTest();
+
 
 
 

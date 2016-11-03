@@ -66,6 +66,7 @@ function socketio($rootScope){
     function assignRoom(){
         socket.on('assignRoom', function (data) {
            console.log(data.room);
+            console.log(data.roomNumber);
             roomNumber = data.roomNumber;
             setRoomNumber(roomNumber);
             if (socket.id == data.room.first.id) {
@@ -129,20 +130,23 @@ function socketio($rootScope){
     function win(){
         //WIN
         socket.on('win',function(){
-            $rootScope.emit('ending', 'You win!!');
+            $rootScope.playerStatus =  'You win!!';
+            $rootScope.emit('ending');
         });
     }
 
     function lose(){
         //LOSE
         socket.on('lose',function(){
-            $rootScope.emit('ending', 'You lose!!');
+            $rootScope.playerStatus =  'You lose!!';
+            $rootScope.emit('ending');
         });
     }
 
     function draw() {
         socket.on('draw', function () {
-            $rootScope.emit('ending', 'It\'s a draw');
+            $rootScope.playerStatus =  'It\'s a draw';
+            $rootScope.emit('ending');
         });
     }
 
