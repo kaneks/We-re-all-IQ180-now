@@ -3,7 +3,6 @@
  */
 myapp.controller("WaitCtrl",['$rootScope','$scope','$location','socketio',function ($rootScope,$scope, $location, socketio) {
 
-    $rootScope.haswaited = true;
 
 
 

@@ -34,7 +34,7 @@ function socketio($rootScope){
         waitGame();
         win();
         lose();
-
+        draw();
         //for testing
         $rootScope.$emit('test');
     }
@@ -130,23 +130,26 @@ function socketio($rootScope){
     function win(){
         //WIN
         socket.on('win',function(){
+            console.log('you win');
             $rootScope.playerStatus =  'You win!!';
-            $rootScope.emit('ending');
+            $rootScope.$broadcast('ending');
         });
     }
 
     function lose(){
         //LOSE
         socket.on('lose',function(){
+            console.log('you lose');
             $rootScope.playerStatus =  'You lose!!';
-            $rootScope.emit('ending');
+            $rootScope.$broadcast('ending');
         });
     }
 
     function draw() {
         socket.on('draw', function () {
+            console.log('it\'s a draw');
             $rootScope.playerStatus =  'It\'s a draw';
-            $rootScope.emit('ending');
+            $rootScope.$broadcast('ending');
         });
     }
 

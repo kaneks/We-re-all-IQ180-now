@@ -12,7 +12,7 @@ myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', 
                 }
     }
     //first player or not
-    $rootScope.haswaited = false;
+
 
 
     //getting numbers before going

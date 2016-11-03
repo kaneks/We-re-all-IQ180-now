@@ -7,7 +7,7 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 	var subCorrect = false;
 	//will need to implement the score later.
 	var score = null;
-	var time = 60;
+	var time = 60000;
 	var ans = $rootScope.ans;
 	var probNums = $rootScope.probNums;
 
@@ -15,21 +15,19 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 	$scope.checkAns = function(){
         var ansFormula = $scope.ansField;
 		var ansNums = ansFormula.match(/\d/g).map(Number);
-
-		if(angular.equals(ansNums.sort(),probNums.sort())){
-			if(eval(ansFormula) == ans){
+		//for bug checking will have to change back
+		//if(angular.equals(ansNums.sort(),probNums.sort())){
+		if(true){
+			//if(eval(ansFormula) == ans){
+			if(true){
 				console.log('RIGHT');
 				//for pausing the number when correct answer
 				subCorrect=true;
-				time *= 1000;
+				//time.round(); gonna need to put back stuff if implementation failed
+				console.log(time);
 				socketio.submitStats(time);
-				if(!$rootScope.haswaited){
-					$rootScope.$apply(function () {
-						$location.path('/waiting');
-					});
-				}else{
-					goToEnd();
-				}
+				
+
 			//	time.toFixed(1);
 			}else{
 				console.log('WRONG');
@@ -44,36 +42,28 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 			//code for exiting
 			//need to find a way to check if still have to wait for other player
 			socketio.submitStats(60000);
-			if(!$rootScope.haswaited){
-				$rootScope.$apply(function () {
-					$location.path('/waiting');
-				});
-			}else{
-				goToEnd();
-			}
 		}else if(!subCorrect){
-			$('#time').text(time);
-			time= time - 1;
-		//	time = time.toFixed(1);
+			$('#time').text(time/1000);
+			time= time - 100;
+
 			//can modify if want better time
-			setTimeout(startCountdown, 1000);
+			setTimeout(startCountdown, 100);
 		}
-	}
+	};
 
 	startCountdown();
 
 	//for testing code
 
 
-	//go to the end screen;
-	function goToEnd() {
-		$scope.$on('ending', function () {
+
+	$scope.$on('ending', function () {
 			$rootScope.$apply(function () {
 				$location.path('/winlose');
 			});
 
-		});
-	}
+	});
+
 
 
 	$scope.$on('waiting', function () {
