@@ -69,13 +69,16 @@ function socketio($rootScope){
             console.log(data.roomNumber);
             roomNumber = data.roomNumber;
             setRoomNumber(roomNumber);
-            if (socket.id == data.room.first.id) {
-                opponentName = data.room.second.name;
+            console.log('room assigned');
+            console.log(socket.id);
+            console.log(data.room.first.id);
+            //socket id was null need to change logic
+            if ($rootScope.username === data.room.first.name) {
+                $rootScope.opponentName = data.room.second.name;
             } else {
-                opponentName = data.room.first.name;
+                $rootScope.opponentName = data.room.first.name;
             }
-
-
+            console.log($rootScope.opponentName+ ' is the opponent')
 
         });
     }
@@ -131,7 +134,12 @@ function socketio($rootScope){
         //WIN
         socket.on('win',function(){
             console.log('you win');
-            $rootScope.playerStatus =  'You win!!';
+            $rootScope.winner = $rootScope.username+' wins';
+            if($rootScope.isFirstPlayer){
+                $rootScope.scoreP1++;
+            }else{
+                $rootScope.scoreP2++;
+            }
             $rootScope.$broadcast('ending');
         });
     }
@@ -140,7 +148,12 @@ function socketio($rootScope){
         //LOSE
         socket.on('lose',function(){
             console.log('you lose');
-            $rootScope.playerStatus =  'You lose!!';
+            $rootScope.winner = $rootScope.opponentName+' wins';
+            if($rootScope.isFirstPlayer){
+                $rootScope.scoreP2++;
+            }else{
+                $rootScope.scoreP1++;
+            }
             $rootScope.$broadcast('ending');
         });
     }
@@ -148,7 +161,9 @@ function socketio($rootScope){
     function draw() {
         socket.on('draw', function () {
             console.log('it\'s a draw');
-            $rootScope.playerStatus =  'It\'s a draw';
+            $rootScope.winner = 'It\'s a draw';
+            $rootScope.scoreP2++;
+            $rootScope.scoreP1++;
             $rootScope.$broadcast('ending');
         });
     }

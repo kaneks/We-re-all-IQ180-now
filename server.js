@@ -248,6 +248,12 @@ io.on('connection', function (socket) {
 				console.log('Emitted \'lose\' to ' + rooms[data.roomNumber].first.name);
 				console.log('Emitted \'win\' to ' + rooms[data.roomNumber].second.name);
 				//updateResult(rooms[data.roomNumber].second.name, rooms[data.roomNumber].first.name, false);
+
+				//switch first room to winner of last
+				var temp = rooms[data.roomNumber].first;
+				rooms[data.roomNumber].first = rooms[data.roomNumber].second;
+				rooms[data.roomNumber].second = temp;
+
 			} else {
 				io.sockets.in(data.roomNumber).emit('draw');
 				console.log('Emitted \'draw\' to ' + rooms[data.roomNumber].first.name);

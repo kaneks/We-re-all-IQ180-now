@@ -20,7 +20,8 @@ myapp.config(function ($routeProvider) {
 		controller : 'WaitCtrl'
 	})
 	.when('/winlose', {
-		templateUrl : 'app/winlose.html'
+		templateUrl : 'app/winlose.html',
+		controller	: 'WinLoseCtrl'
 	})
 	.otherwise({
 		redirectTo : '/home'

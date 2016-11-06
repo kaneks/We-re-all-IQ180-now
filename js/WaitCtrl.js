@@ -16,7 +16,8 @@ myapp.controller("WaitCtrl",['$rootScope','$scope','$location','socketio',functi
 
     $scope.$on('ending', function () {
         $rootScope.$apply(function () {
-           $location.path('/winlose');
+            console.log('ending from waiting');
+                $location.path('/winlose');
         });
 
     });

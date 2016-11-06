@@ -12,13 +12,14 @@ myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', 
                 }
     }
     //first player or not
-
+    $rootScope.test='goodbye;';
+    console.log($rootScope.test);
 
 
     //getting numbers before going
     function getNumGO(pathway){
         $.ajax(settings).done(function (response) {
-            console.log('hello');
+            console.log('received http get');
             $rootScope.num = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];
             $rootScope.ans = response.Ans;
             $rootScope.probNums = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];
@@ -49,12 +50,17 @@ myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', 
 
              $scope.$on('play', function () {
 				console.log('playing');
+                 if($rootScope.firstEnter){
+                     $rootScope.isFirstPlayer = true;
+                 }
+                    console.log('Is first player');
                  getNumGO('/play');
 
 			});
 
 			$scope.$on('waiting', function () {
 				console.log('waiting');
+                $rootScope.isFirstPlayer = false;
                 getNumGO('/waiting');
 			});
 

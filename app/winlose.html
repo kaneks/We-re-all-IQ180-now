@@ -1,3 +1,17 @@
 <h2>
-	<div class="text-center" id="time" ng-bind="playerStatus">{{playerStatus}}</div>
+	<div class="text-center" ng-bind="winner">{{winner}}</div>
 </h2>
+<h3 class="panel-title">
+	<span ng-bind="username">{{username}}</span>
+	<span>SCORE:</span>
+	<span id="score1" ng-bind="scoreP1">{{scoreP1}}</span>
+</h3>
+<h3 class="panel-title">
+	<span ng-bind="opponentName">{{opponentName}}</span>
+	<span>SCORE:</span>
+	<span id="score2" ng-bind="scoreP2">{{scoreP2}}</span>
+</h3>
+<h4>
+	<div class="text-center" >resume in</div>
+	<div class="text-center" id="time">time</div>
+</h4>

@@ -8,8 +8,13 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 	//will need to implement the score later.
 	var score = null;
 	var time = 60000;
+	console.log($rootScope.test);
+	//current round number
+
+	const MAX_ROUNDS = 5;
 	var ans = $rootScope.ans;
 	var probNums = $rootScope.probNums;
+	$scope.greetName = 'Welcome, '+$rootScope.username;
 
 
 	$scope.checkAns = function(){
@@ -55,13 +60,13 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 
 	//for testing code
 
-
+	//ending is for round ending
 
 	$scope.$on('ending', function () {
+		console.log('ending');
 			$rootScope.$apply(function () {
 				$location.path('/winlose');
 			});
-
 	});
 
 
@@ -71,7 +76,6 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 		$rootScope.$apply(function () {
 			$location.path('/waiting');
 		});
-		console.log($location.path());
 	});
 	//CHAT AND LOG
 
