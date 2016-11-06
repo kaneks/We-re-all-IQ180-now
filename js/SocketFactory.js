@@ -135,11 +135,7 @@ function socketio($rootScope){
         socket.on('win',function(){
             console.log('you win');
             $rootScope.winner = $rootScope.username+' wins';
-            if($rootScope.isFirstPlayer){
                 $rootScope.scoreP1++;
-            }else{
-                $rootScope.scoreP2++;
-            }
             $rootScope.$broadcast('ending');
         });
     }
@@ -149,11 +145,7 @@ function socketio($rootScope){
         socket.on('lose',function(){
             console.log('you lose');
             $rootScope.winner = $rootScope.opponentName+' wins';
-            if($rootScope.isFirstPlayer){
                 $rootScope.scoreP2++;
-            }else{
-                $rootScope.scoreP1++;
-            }
             $rootScope.$broadcast('ending');
         });
     }
