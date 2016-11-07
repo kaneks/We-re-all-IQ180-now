@@ -17,24 +17,9 @@ app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/index.html');
 });
 
-/*
-app.get('/time', function (req, res) {
-var date = new Date();
-var hour = date.getHours();
-hour = (hour < 10 ? "0" : "") + hour;
-var min = date.getMinutes();
-min = (min < 10 ? "0" : "") + min;
-var sec = date.getSeconds();
-sec = (sec < 10 ? "0" : "") + sec;
-var year = date.getFullYear();
-var month = date.getMonth() + 1;
-month = (month < 10 ? "0" : "") + month;
-var day = date.getDate();
-day = (day < 10 ? "0" : "") + day;
-var ans = "[{" + year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec + "}]";
-return res.send(ans);
+app.get('/server.html', function (req, res) {
+	res.sendFile(__dirname + '/app/server.html');
 });
- */
 
 var userModel = {
 	name : '',
@@ -189,6 +174,7 @@ io.on('connection', function (socket) {
 				rooms[roomCount].second.id = socket.id;
 				rooms[roomCount].second.name = name;
 			}
+			io.sockets.in('monitors').emit('updateData', rooms);
 		} else {
 			if (rooms[roomCount].first.id != null) {
 				rooms[roomCount].second.id = socket.id;
@@ -197,6 +183,7 @@ io.on('connection', function (socket) {
 				rooms[roomCount].first.id = socket.id;
 				rooms[roomCount].first.name = name;
 			}
+			io.sockets.in('monitors').emit('updateData', rooms);
 			io.sockets.in(roomCount).emit('assignRoom', {
 				'roomNumber' : roomCount,
 				'room' : rooms[roomCount]
@@ -260,7 +247,12 @@ io.on('connection', function (socket) {
 				console.log('Emitted \'draw\' to ' + rooms[data.roomNumber].second.name);
 				//updateResult(rooms[data.roomNumber].first.name, rooms[data.roomNumber].second.name, true);
 			}
+			io.sockets.in('monitors').emit('updateData', rooms);
 		}
+	});
+	socket.on('requestData', function (){
+		socket.join('monitors');
+		socket.emit('updateData', rooms);
 	});
 	socket.on('chat message', function (data) {
 		io.sockets.in(data.roomNumber).emit('chat message', data.msg);

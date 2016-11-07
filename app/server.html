@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" ng-app = "myapp">
+
+	<head>
+		<!-- Meta -->
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+		<!-- Title -->
+		<title>IQ180</title>
+
+		<!--Bootstrap-->
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
+		<script src="lib/bootstrap.js"></script>
+
+		<!--Custom CSS-->
+		<link rel="stylesheet" href="css/web1.css"/>
+
+		<!--jQuery-->
+		<script src = "lib/jquery-3.1.1.min.js"></script>
+		
+		<!--Socket-->
+		<script src = "lib/socket.io-1.2.0.js"></script>
+
+		<!--CustomJS-->
+		<script src = "js/ServerCtrl.js"></script>
+	</head>
+
+	<body>
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="text-center">
+					<p><h3>WE'RE ALL IQ180</h3></p>
+				</div>
+			</div>
+		</nav>
+		
+		<button type="button" class="btn btn-danger" id="clearButton">Clear</button>
+		
+		<span id="currentPlayers"></span>
+
+		<div ng-view></div>
+</body>
+</html>

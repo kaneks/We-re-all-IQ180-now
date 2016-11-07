@@ -164,5 +164,11 @@ function socketio($rootScope){
     function setRoomNumber(num){
         roomNum = num;
     }
+	
+	function clear() {
+		socket.on('clear', function () {
+			//BB do something
+		});
+	}
 
 }
