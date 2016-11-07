@@ -1,9 +1,5 @@
 var socket = io.connect();
 
-$('#clearButton').click(function () {
-	io.emit('clear');
-})
-
 rooms = [];
 
 socket.emit('requestData');

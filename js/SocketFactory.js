@@ -24,10 +24,12 @@ function socketio($rootScope){
     service.init = init;
     service.submitStats = submitStats;
     service.draw = draw;
+    service.clear = clear;
 
     return service;
 
     function init(){
+        clear();
         assignRoom();
         ready();
         startGame();

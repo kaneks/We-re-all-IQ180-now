@@ -18,7 +18,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/server.html', function (req, res) {
-	res.sendFile(__dirname + '/app/server.html');
+	res.sendFile(__dirname + '/server.html');
 });
 
 var userModel = {
@@ -253,6 +253,10 @@ io.on('connection', function (socket) {
 	socket.on('requestData', function (){
 		socket.join('monitors');
 		socket.emit('updateData', rooms);
+	});
+	socket.on('requestClear', function () {
+		io.emit('clear');
+		console.log('cleared!');
 	});
 	socket.on('chat message', function (data) {
 		io.sockets.in(data.roomNumber).emit('chat message', data.msg);
