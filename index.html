@@ -55,6 +55,33 @@
 
 		</audio>
 
+		<button class="center-block" onclick="showOcean()" type="button" class="btn btn-primary">Ocean</button>
+		<button class="center-block" onclick="showSpace()" type="button" class="btn btn-primary">Space</button>
+
+		<script>
+			function showOcean() {
+				console.log('ocean');
+
+
+				$(this).css('background-color', 'red');
+
+					$(this).css("background-image", "url(ocean.jpg)");
+
+			}
+				console.log('wtf');
+			function showSpace(){
+				console.log('space');
+
+
+					$(this).css("background-image", "url(space.jpg)");
+
+			}
+		</script>
+		<style>
+			body {
+				background-image: url(ocean.jpg);
+			}
+		</style>
 	<div ng-view></div>
 </body>
 </html>
