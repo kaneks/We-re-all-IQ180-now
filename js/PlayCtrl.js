@@ -1,6 +1,6 @@
 /*
 ##	This is the controller for the game page.
- */
+*/
 
 myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',function ($rootScope,$scope, $location, socketio) {
 	//will need to modify the url when real thing comes
@@ -16,16 +16,66 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 	var probNums = $rootScope.probNums;
 	$scope.greetName = 'Welcome, '+$rootScope.username;
 
+	$scope.customStyle = {};
+	var check = [true, true, true, true, true];
+
+	$scope.check = function(){
+		reset();
+		var ansFormula = $scope.ansField;
+		if(ansFormula.length != 0){
+			var ansNums = ansFormula.match(/\d/g).map(Number);
+			for(var i = 0; i < ansNums.length; i++){
+				for(var j = 0; j < probNums.length; j++){
+					if((ansNums[i] == probNums[j]) && check[j]){
+						check[j] = false;
+						turnRed(j);
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	function turnRed(num){
+		switch(num) {
+			case 0:
+				$scope.customStyle.style0 = {"color" : "red"};
+				break;
+			case 1:
+				$scope.customStyle.style1 = {"color" : "red"};
+				break;
+			case 2:
+				$scope.customStyle.style2 = {"color" : "red"};
+				break;
+			case 3:
+				$scope.customStyle.style3 = {"color" : "red"};
+				break;
+			case 4:
+				$scope.customStyle.style4 = {"color" : "red"};
+				break;
+		}
+	}
+
+
+	function reset(){
+		check = [true, true, true, true, true];
+		$scope.customStyle.style0 = {"color" : "black"};
+		$scope.customStyle.style1 = {"color" : "black"};
+		$scope.customStyle.style2 = {"color" : "black"};
+		$scope.customStyle.style3 = {"color" : "black"};
+		$scope.customStyle.style4 = {"color" : "black"};
+	}
+
 
 	$scope.checkAns = function(){
-        var ansFormula = $scope.ansField;
+		var ansFormula = $scope.ansField;
 		var ansNums = ansFormula.match(/\d/g).map(Number);
 		//for bug checking will have to change back
 		//if(angular.equals(ansNums.sort(),probNums.sort())){
-		if(true){
-			//if(eval(ansFormula) == ans){
 			if(true){
-				console.log('RIGHT');
+			//if(eval(ansFormula) == ans){
+				if(true){
+					console.log('RIGHT');
 				//for pausing the number when correct answer
 				subCorrect=true;
 				//time.round(); gonna need to put back stuff if implementation failed
@@ -34,16 +84,16 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 
 
 			//	time.toFixed(1);
-			}else{
-				console.log('WRONG');
-			}
 		}else{
-			console.log('INCOMPLETE');
+			console.log('WRONG');
 		}
-	};
+	}else{
+		console.log('INCOMPLETE');
+	}
+};
 
-	function startCountdown() {
-		if(time <0){
+function startCountdown() {
+	if(time <0){
 			//code for exiting
 			//need to find a way to check if still have to wait for other player
 			socketio.submitStats(0);
@@ -64,9 +114,9 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 
 	$scope.$on('ending', function () {
 		console.log('ending');
-			$rootScope.$apply(function () {
-				$location.path('/winlose');
-			});
+		$rootScope.$apply(function () {
+			$location.path('/winlose');
+		});
 	});
 
 
@@ -97,12 +147,12 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 	});
 */
 
-	$scope.$on('clearAll', function () {
-		console.log('clearing');
-		$rootScope.$apply(function () {
+$scope.$on('clearAll', function () {
+	console.log('clearing');
+	$rootScope.$apply(function () {
 			// it is '' or null need to check ;a
 			$location.path('/home');
 		});
-	});
+});
 
 }]);

@@ -25,15 +25,15 @@
 		<div class="panel-body">
 			<div class="input-group">
 				<p>
-					<span>{{num[0]}}</span>,
-					<span>{{num[1]}}</span>,
-					<span>{{num[2]}}</span>,
-					<span>{{num[3]}}</span>,
-					<span>{{num[4]}}</span> 
-          |
-          Answer: <span id="prob-answer">{{ans}}</span>
+					<span ng-style="customStyle.style0">{{num[0]}}</span>,
+					<span ng-style="customStyle.style1">{{num[1]}}</span>,
+					<span ng-style="customStyle.style2">{{num[2]}}</span>,
+					<span ng-style="customStyle.style3">{{num[3]}}</span>,
+					<span ng-style="customStyle.style4">{{num[4]}}</span> 
+					|
+					Answer: <span id="prob-answer">{{ans}}</span>
 				</p>
-				<p><input ng-model="ansField" type="text" class="form-control" id="ans"/>{{$scope.ansField}}</p>
+				<p><input ng-model="ansField" type="text" ng-keyup="check()" class="form-control" id="ans"/></p>
 				<h6>You can only use +, -, *, and /</h6>
 				<button ng-click="checkAns()" type="button" class="btn btn-primary">Submit</button>
 			</div>
