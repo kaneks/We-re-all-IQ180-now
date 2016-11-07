@@ -27,13 +27,14 @@ myapp.controller("HomeCtrl", ['$rootScope','$scope','$location','socketio',funct
 		}
 
 		$.ajax(settings2).done(function (response) {
-			if(response.status == 0){
-				$rootScope.highscore = response.points;
+			if(response.status == 1){
 				$rootScope.status = response.status;
-				console.log(response);
+				console.log(response.points);
 			}
 			else{
-				$rootScope.status = response.status;
+				$rootScope.highscore = response.points;
+				$rootScope.status = 0;
+				console.log(response.points);
 			}
 			
 		});
