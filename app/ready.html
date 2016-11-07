@@ -5,4 +5,13 @@
 		<button ng-click="playGame()" ng-disabled="dis" type="button" class="btn btn-primary">Ready</button>
 
 	</div>
+	<div id="scorePart">
+		<span>Highscore: </span>
+		<span ng-bind="highscore">{{highscore}}</span>
+		<style>
+			#scorePart{
+				background-color: #e0e0e0;
+			}
+		</style>
+	</div>
 </div>

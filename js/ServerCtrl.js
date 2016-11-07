@@ -17,6 +17,12 @@ socket.on('updateData', function(data){
 
 function updatePage(){
 	$('#currentPlayers').text(getNumberOfPlayers() + ' players are currently online.');
+	$('#playersList').empty();
+	for(var i = 0; i < rooms.length; i++){
+		if(rooms[i].first.name != null && rooms[i].second.name != null){
+			$('#playersList').append($('<li>').attr('class',  'list-group-item').append(rooms[i].first.name + ' VS ' + rooms[i].second.name));
+		}
+	}
 }
 
 function getNumberOfPlayers(){

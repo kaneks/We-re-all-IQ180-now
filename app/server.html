@@ -19,7 +19,7 @@
 
 		<!--jQuery-->
 		<script src = "lib/jquery-3.1.1.min.js"></script>
-		
+
 		<!--Socket-->
 		<script src = "lib/socket.io-1.2.0.js"></script>
 
@@ -36,11 +36,13 @@
 				</div>
 			</div>
 		</nav>
-		
-		<button type="button" class="btn btn-danger" id="clearButton">Clear</button>
-		
-		<span id="currentPlayers"></span>
+		<div class="well">
+			<button type="button" class="btn btn-danger" id="clearButton">Clear</button>
 
-		<div ng-view></div>
-</body>
+			<span id="currentPlayers"></span>
+			
+			<ul class="list-group" id="playersList">
+			</ul>
+		</div>
+	</body>
 </html>

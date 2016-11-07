@@ -4,7 +4,7 @@ myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', 
            var settings = {
                "async": true,
                "crossDomain": true,
-               "url": "http://localhost:80/question",
+               "url": "http://localhost:3000/question",
                "method": "GET",
                "headers": {
                    "cache-control": "no-cache",
@@ -14,6 +14,8 @@ myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', 
     //first player or not
     $rootScope.test='goodbye;';
     console.log($rootScope.test);
+
+    
 
 
     //getting numbers before going

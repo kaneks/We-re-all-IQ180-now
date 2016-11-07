@@ -1,87 +1,82 @@
 <!DOCTYPE html>
-<html lang="en" ng-app = "myapp">
+<html lang="en" ng-app="myapp">
 
-	<head>
-		<!-- Meta -->
-		<meta charset="utf-8"/>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<head>
+    <!-- Meta -->
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
-		<!-- Title -->
-		<title>IQ180</title>
+    <!-- Title -->
+    <title>IQ180</title>
 
-		<!--Bootstrap-->
-		<link rel="stylesheet" href="css/bootstrap.min.css"/>
-		<link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
-		<script src="lib/bootstrap.js"></script>
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
+    <script src="lib/bootstrap.js"></script>
 
-		<!--Custom CSS-->
-		<link rel="stylesheet" href="css/web1.css"/>
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="css/web1.css"/>
 
-		<!--jQuery-->
-		<script src = "lib/jquery-3.1.1.min.js"></script>
+    <!--jQuery-->
+    <script src="lib/jquery-3.1.1.min.js"></script>
 
-		<!--AngularJS-->
-		<script src = "lib/angular.min.js"></script>
-		<script src = "lib/angular-route.min.js"></script>
-		<script src = "lib/ui-bootstrap-tpls-1.2.5.min.js"></script>
-		
-		<!--Socket-->
-		<script src = "lib/socket.io-1.2.0.js"></script>
+    <!--AngularJS-->
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/angular-route.min.js"></script>
+    <script src="lib/ui-bootstrap-tpls-1.2.5.min.js"></script>
 
-		<!--CustomJS-->
-		<script src = "js/Module.js"></script>
-		<script src = "js/HomeCtrl.js"></script>
-		<script src = "js/PlayCtrl.js"></script>
-		<script src = "js/WaitCtrl.js"></script>
-		<script src = "js/ReadyCtrl.js"></script>
-		<script src = "js/SocketFactory.js"></script>
-		<script src = 'js/WinLoseCtrl.js'></script>
-	</head>
+    <!--Socket-->
+    <script src="lib/socket.io-1.2.0.js"></script>
 
-	<body>
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="text-center">
-					<p><h3>WE'RE ALL IQ180</h3></p>
-				</div>
-			</div>
+    <!--CustomJS-->
+    <script src="js/Module.js"></script>
+    <script src="js/HomeCtrl.js"></script>
+    <script src="js/PlayCtrl.js"></script>
+    <script src="js/WaitCtrl.js"></script>
+    <script src="js/ReadyCtrl.js"></script>
+    <script src="js/SocketFactory.js"></script>
+    <script src='js/WinLoseCtrl.js'></script>
+</head>
 
-		</div><!-- /.container-fluid -->
-	</nav>
+<body id="mybody">
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="text-center">
+            <p>
+            <h3>WE'RE ALL IQ180</h3></p>
+        </div>
+    </div>
 
-		<audio class="center-block" controls="controls" loop="loop" >
-			<source src="song.mp3" type="audio/mpeg" />
+    </div><!-- /.container-fluid -->
+</nav>
 
-		</audio>
+<audio class="center-block" controls="controls" loop="loop">
+    <source src="song.mp3" type="audio/mpeg"/>
 
-		<button class="center-block" onclick="showOcean()" type="button" class="btn btn-primary">Ocean</button>
-		<button class="center-block" onclick="showSpace()" type="button" class="btn btn-primary">Space</button>
+</audio>
 
-		<script>
-			function showOcean() {
-				console.log('ocean');
+<button id="oceanBtn" type="button" class="btn btn-primary center-block">Ocean</button>
+<button id="spaceBtn" type="button" class="btn btn-primary center-block">Space</button>
 
 
-				$(this).css('background-color', 'red');
+<script>
 
-					$(this).css("background-image", "url(ocean.jpg)");
+    $('#oceanBtn').click(function () {
+        console.log('ocean');
+        $('#mybody').css('background-image', 'url(/ocean.jpg)');
+    });
+    $('#spaceBtn').click(function () {
+        console.log('space');
+        $('#mybody').css("background-image", "url(/space.jpg)");
+    });
 
-			}
-				console.log('wtf');
-			function showSpace(){
-				console.log('space');
-
-
-					$(this).css("background-image", "url(space.jpg)");
-
-			}
-		</script>
-		<style>
-			body {
-				background-image: url(ocean.jpg);
-			}
-		</style>
-	<div ng-view></div>
+</script>
+<style>
+    body {
+        background-image: url(ocean.jpg);
+    }
+</style>
+<div ng-view></div>
 </body>
 </html>

@@ -10,12 +10,34 @@ myapp.controller("WinLoseCtrl",['$rootScope','$scope','$location','socketio',fun
     var settings = {
         "async": true,
         "crossDomain": true,
-        "url": "http://localhost:80/question",
+        "url": "http://localhost:3000/question",
         "method": "GET",
         "headers": {
             "cache-control": "no-cache",
             "postman-token": "1acc73f6-96cc-809e-aebd-d6b2726566d6"
         }
+    }
+    if($rootScope.status == 1){
+        var settings2 = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://localhost:3000/u",
+            "method": "POST",
+            "headers": {
+                "content-type": "application/x-www-form-urlencoded",
+                "cache-control": "no-cache",
+                "postman-token": "8ddc7b40-66d8-874a-77dc-25eb42355430"
+            },
+            "data": {
+                "name": $rootScope.username
+            }
+        }
+
+        $.ajax(settings2).done(function (response) {
+
+            console.log(response);
+            $rootScope.status = 0;
+        });
     }
 
     function startCountdown() {
