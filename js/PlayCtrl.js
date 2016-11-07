@@ -48,8 +48,9 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 			//need to find a way to check if still have to wait for other player
 			socketio.submitStats(0);
 		}else if(!subCorrect){
-			$('#time').text(time/1000);
-			time= time - 100;
+			//$('#time').text(time/1000);
+			$('#timeBar').attr('style', 'width:' + time/600 + '%');
+			time = time - 100;
 
 			//can modify if want better time
 			setTimeout(startCountdown, 100);
