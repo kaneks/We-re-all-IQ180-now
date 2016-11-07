@@ -24,7 +24,7 @@
 		<script src = "lib/socket.io-1.2.0.js"></script>
 
 		<!--CustomJS-->
-		<script src = "js/ServerCtrl.js"></script>
+		<script src = "js/monitor.js"></script>
 	</head>
 
 	<body>
@@ -32,19 +32,13 @@
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="text-center">
-					<p><h3>WE'RE ALL IQ180</h3></p>
+					<p><h3>IQ180 Server Monitor</h3></p>
 				</div>
 			</div>
 		</nav>
 		<div class="well">
 			<button type="button" class="btn btn-danger" id="clearButton">Clear</button>
-<script>
-	$('#clearButton').click(function () {
-		console.log('requested clear');
-		socket.emit('requestClear');
-		console.log('requested clear');
-	});
-</script>
+
 			<span id="currentPlayers"></span>
 			
 			<ul class="list-group" id="playersList">

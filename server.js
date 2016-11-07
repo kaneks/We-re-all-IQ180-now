@@ -17,8 +17,8 @@ app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/server.html', function (req, res) {
-	res.sendFile(__dirname + '/server.html');
+app.get('/monitor', function (req, res) {
+	res.sendFile(__dirname + '/monitor.html');
 });
 
 var userModel = {
