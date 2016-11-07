@@ -4,6 +4,8 @@ myapp.controller("HomeCtrl", ['$rootScope','$scope','$location','socketio',funct
 	$rootScope.scoreP2 = 0;
 	$rootScope.round =1;
 	$rootScope.winner='';
+	$rootScope.username='';
+	$rootScope.opponentName='';
 	$rootScope.youWin = false;
 	$rootScope.firstEnter = true;
 	$rootScope.highscore = null;
