@@ -31,6 +31,12 @@ myapp.controller("WinLoseCtrl",['$rootScope','$scope','$location','socketio',fun
         }
     };
 
+    if($rootScope.youWin){
+        $scope.winURL = '/winning.gif';
+    }else {
+        $scope.winURL = '/lose.gif';
+    }
+
     startCountdown();
 
     function getNumGO(pathway){
@@ -56,5 +62,7 @@ myapp.controller("WinLoseCtrl",['$rootScope','$scope','$location','socketio',fun
         console.log('waiting');
         getNumGO('/waiting');
     });
+
+
 
 }]);

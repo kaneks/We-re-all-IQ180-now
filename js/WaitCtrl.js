@@ -4,7 +4,7 @@
 myapp.controller("WaitCtrl",['$rootScope','$scope','$location','socketio',function ($rootScope,$scope, $location, socketio) {
 
 
-
+    $rootScope.youWin = false;
 
     $scope.$on('play', function () {
         console.log('playing');

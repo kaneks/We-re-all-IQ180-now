@@ -136,6 +136,7 @@ function socketio($rootScope){
             console.log('you win');
             $rootScope.winner = $rootScope.username+' wins';
                 $rootScope.scoreP1++;
+            $rootScope.youWin = true;
             $rootScope.$broadcast('ending');
         });
     }
