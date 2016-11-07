@@ -24,7 +24,13 @@ myapp.controller("WaitCtrl",['$rootScope','$scope','$location','socketio',functi
 
 
 
-
+    $scope.$on('clearAll', function () {
+        console.log('clearing');
+        $rootScope.$apply(function () {
+            // it is '' or null need to check ;a
+            $location.path('/home');
+        });
+    });
 
 
 

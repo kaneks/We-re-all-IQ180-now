@@ -97,4 +97,12 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 	});
 */
 
+	$scope.$on('clearAll', function () {
+		console.log('clearing');
+		$rootScope.$apply(function () {
+			// it is '' or null need to check ;a
+			$location.path('/home');
+		});
+	});
+
 }]);

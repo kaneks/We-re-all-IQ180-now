@@ -167,7 +167,7 @@ function socketio($rootScope){
 	
 	function clear() {
 		socket.on('clear', function () {
-			//BB do something
+            $rootScope.$broadcast('clearAll');
 		});
 	}
 
