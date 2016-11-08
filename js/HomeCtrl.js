@@ -10,6 +10,7 @@ myapp.controller("HomeCtrl", ['$rootScope','$scope','$location','socketio',funct
 	$rootScope.firstEnter = true;
 	$rootScope.highscore = null;
 	$rootScope.status = null;
+
 	
 
 	$scope.signIn = function(){
