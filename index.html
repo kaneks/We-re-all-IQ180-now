@@ -51,14 +51,13 @@
 
 <audio class="center-block" controls="controls" loop="loop">
     <source src="song.mp3" type="audio/mpeg"/>
-
 </audio>
 
 <button id="oceanBtn" type="button" class="btn btn-primary center-block">Ocean</button>
 <button id="spaceBtn" type="button" class="btn btn-primary center-block">Space</button>
+<div class="well center-block"><span id="weather"></span></div>
 
 <script>
-
     $('#oceanBtn').click(function () {
         console.log('ocean');
         $('#mybody').css('background-image', 'url(/ocean.jpg)');
@@ -67,7 +66,17 @@
         console.log('space');
         $('#mybody').css("background-image", "url(/space.jpg)");
     });
+	var weather = {
+		"async": true,
+		"crossDomain": true,
+		"url": "http://api.openweathermap.org/data/2.5/weather?q=Bangkok&units=metric&APPID=537949986daf0906af3e477594ff3287",
+		"method": "GET"
+	};
 
+	$.ajax(weather).done(function (response) {
+		$("#weather").text("It's " + response.main.temp + " degrees celcius in Bangkok.");
+		console.log(response);
+	});
 </script>
 <style>
 body {
