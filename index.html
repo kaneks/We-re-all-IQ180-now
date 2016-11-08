@@ -37,38 +37,36 @@
 
 <body id="mybody">
 
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-              <a class="navbar-brand" href="#">WE'RE ALL IQ180 NOW</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <ul class="nav navbar-nav">
-                <li><a href="#" onclick = "changeToOceanBG()">Ocean</a></li>
-                <li><a href="#" onclick = "changeToSpaceBG()">Space</a></li>
-            </div>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="text-center">
+            <p>
+            <h3>WE'RE ALL IQ180</h3></p>
+        </div>
+    </div>
 
-            <ul class="nav navbar-nav navbar-right">
+    </div><!-- /.container-fluid -->
+</nav>
 
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </nav>
+<audio class="center-block" controls="controls" loop="loop">
+    <source src="song.mp3" type="audio/mpeg"/>
 
-    <audio class="center-block" controls="controls" loop="loop">
-        <source src="song.mp3" type="audio/mpeg"/>
-    </audio>
+</audio>
+
+<button id="oceanBtn" type="button" class="btn btn-primary center-block">Ocean</button>
+<button id="spaceBtn" type="button" class="btn btn-primary center-block">Space</button>
 
 <script>
 
-function changeToOceanBG(){
-    $('#mybody').css('background-image', 'url(/ocean.jpg)');
-}
-
-function changeToSpaceBG(){
-    $('#mybody').css("background-image", "url(/space.jpg)");
-}
+    $('#oceanBtn').click(function () {
+        console.log('ocean');
+        $('#mybody').css('background-image', 'url(/ocean.jpg)');
+    });
+    $('#spaceBtn').click(function () {
+        console.log('space');
+        $('#mybody').css("background-image", "url(/space.jpg)");
+    });
 
 </script>
 <style>
