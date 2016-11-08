@@ -123,7 +123,7 @@ app.get('/question', function (req, res) {
 	}
 
 	var temp = genNums[0];
-	for(var i = 0; i < 3; i++){
+	for(var i = 0; i < 4; i++){
 		var opSelector = Math.floor(Math.random() * 4);
 		if(opSelector == 0){
 			temp += genNums[i + 1];
