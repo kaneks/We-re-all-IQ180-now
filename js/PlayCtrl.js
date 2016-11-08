@@ -2,7 +2,7 @@
 ##	This is the controller for the game page.
 */
 
-myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',function ($rootScope,$scope, $location, socketio) {
+myapp.controller("PlayCtrl", ['$rootScope','$scope','$location', 'socketio',function ($rootScope,$scope, $location, socketio) {
 	//will need to modify the url when real thing comes
 	var subCorrect = false;
 	//will need to implement the score later.
@@ -79,8 +79,8 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 				//for pausing the number when correct answer
 				subCorrect=true;
 				//time.round(); gonna need to put back stuff if implementation failed
-				console.log(time);
-				socketio.submitStats(time);
+				$scope.time = time;
+				socketio.submitStats($scope.time);
 
 
 			//	time.toFixed(1);
@@ -93,9 +93,12 @@ myapp.controller("PlayCtrl", ['$rootScope','$scope','$location','socketio',funct
 };
 
 function startCountdown() {
+	$scope.countdown = time/1000;
+	console.log($scope.countdown);
 	if(time <0){
 			//code for exiting
 			//need to find a way to check if still have to wait for other player
+			$scope.time = time;
 			socketio.submitStats(0);
 		}else if(!subCorrect){
 			$('#time').text(time/1000);

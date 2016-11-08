@@ -1,42 +1,50 @@
-<h4>
-	<div class="text-center" id="time">time</div>
-</h4>
+<!--<div class="text-center" id="time">time</div>-->
 
 <div class="col-xs-8 col-xs-offset-2">
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title" >
-				<!-- <span>Round: </span>
-				<span ng-bind="round">{{round}}</span> !-->
-			</h3>
-			<h3 class="panel-title" ng-bind="greetName">{{greetName}}</h3>
-			<h3 class="panel-title">
-				<span ng-bind="username">{{username}}</span>
+			<div class="panel-title pull-left">
+				<h3 class="panel-title">
+            	<span ng-bind="username">{{username}}</span>
 				<span>SCORE:</span>
 				<span id="score1" ng-bind="scoreP1">{{scoreP1}}</span>
-			</h3>
-			<h3 class="panel-title">
+				</h3>
+         	</div>
+			<div class="panel-title pull-right">
+				<h3 class="panel-title">
 				<span ng-bind="opponentName">{{opponentName}}</span>
 				<span>SCORE:</span>
 				<span id="score2" ng-bind="scoreP2">{{scoreP2}}</span>
-			</h3>
-
+				</h3>
+			</div>
+			<div class="clearfix"></div>
 		</div>
-		<div class="panel-body">
-			<div class="input-group">
+
+		<div class="panel-body text-center">
 				<p>
-					<span ng-style="customStyle.style0">{{num[0]}}</span>,
-					<span ng-style="customStyle.style1">{{num[1]}}</span>,
-					<span ng-style="customStyle.style2">{{num[2]}}</span>,
-					<span ng-style="customStyle.style3">{{num[3]}}</span>,
-					<span ng-style="customStyle.style4">{{num[4]}}</span> 
+					<span ng-style="customStyle.style0">{{num[0]}} </span> 
+					<span ng-style="customStyle.style1">{{num[1]}} </span>
+					<span ng-style="customStyle.style2">{{num[2]}} </span>
+					<span ng-style="customStyle.style3">{{num[3]}} </span>
+					<span ng-style="customStyle.style4">{{num[4]}} </span> 
 					|
 					Answer: <span id="prob-answer">{{ans}}</span>
 				</p>
 				<p><input ng-model="ansField" type="text" ng-keyup="check()" class="form-control" id="ans"/></p>
 				<h6>You can only use +, -, *, and /</h6>
 				<button ng-click="checkAns()" type="button" class="btn btn-primary">Submit</button>
-			</div>
 		</div>
 	</div>
+</div>
+
+<div class="col-xs-8 col-xs-offset-2">
+	<div class="progress">
+        <div class="row">
+        	<div class="progress">
+        		<div class="progress-bar" role="progressbar" aria-valuenow="{{countdown}}" aria-valuemin="0" aria-valuemax="60" ng-style="{width:((countdown/60)*100)+'%'}">
+            	<span class="sr-only">{{countdown}} seconds left</span>
+       			 </div>
+    		</div>
+    	</div>
+    </div>
 </div>

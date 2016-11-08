@@ -20,6 +20,7 @@
     <!--AngularJS-->
     <script src="lib/angular.min.js"></script>
     <script src="lib/angular-route.min.js"></script>
+    <script src="lib/angular-animate.js"></script>
     <script src="lib/ui-bootstrap-tpls-1.2.5.min.js"></script>
 
     <!--Socket-->
@@ -33,32 +34,34 @@
     <script src="js/ReadyCtrl.js"></script>
     <script src="js/SocketFactory.js"></script>
     <script src='js/WinLoseCtrl.js'></script>
+    <script src="js/index.js"></script>
+
 </head>
 
 <body id="mybody">
 
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-              <a class="navbar-brand" href="#">WE'RE ALL IQ180 NOW</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <ul class="nav navbar-nav">
-                <li><a href="#" onclick = "changeToOceanBG()">Ocean</a></li>
-                <li><a href="#" onclick = "changeToSpaceBG()">Space</a></li>
-            </div>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand">IQ-180</a>
+    </div>
 
-            <ul class="nav navbar-nav navbar-right">
-
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </nav>
-
-    <audio class="center-block" controls="controls" loop="loop">
-        <source src="song.mp3" type="audio/mpeg"/>
-    </audio>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a onclick = "changeToOceanBG()">Ocean</a></li>
+        <li><a onclick = "changeToSpaceBG()">Space</a></li>
+      </ul>
+      <div class="navbar-form navbar-left">
+        <a><audio class="center-block" controls="controls" loop="loop"><source src="song.mp3" type="audio/mpeg"/></audio></a>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a><div ng-controller='TimeCtrl'>{{ clock | date:'HH:mm:ss'}}</div></a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
 
 <script>
 

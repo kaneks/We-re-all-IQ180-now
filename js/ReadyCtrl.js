@@ -1,5 +1,7 @@
 myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', function ($rootScope, $scope, $location, socketio) {
 
+			$scope.greetName = 'Welcome, '+$rootScope.username;
+
 			var play = null;
 			var settings = {
 				"async" : true,
