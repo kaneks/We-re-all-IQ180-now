@@ -11,42 +11,23 @@ myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', 
 					"postman-token" : "1acc73f6-96cc-809e-aebd-d6b2726566d6"
 				}
 			}
-			//first player or not
-			$rootScope.test = 'goodbye;';
-			console.log($rootScope.test);
 
-			//getting numbers before going
-			function getNumGO(pathway) {
-				$rootScope.$apply(function () {
-					$scope.dis=true;
-				});
-				$.ajax(settings).done(function (response) {
-					console.log('received http get');
-					$rootScope.num = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];
-					$rootScope.ans = response.Ans;
-					$rootScope.probNums = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];
-					$rootScope.$apply(function () {
-						$location.path(pathway);
-					});
-
-				});
-
-			}
+			$('#readyBtn').text('Waiting for opponent to join.');
+			$scope.dis = true;
 
 			$scope.playGame = function () {
 				socketio.playerReady();
-				$('#readyBtn').toggleClass("btn-primary btn-success").show();
+				$('#readyBtn').text('Waiting for opponent to press ready.');
+				$('#readyBtn').attr('class', 'btn btn-primary btn-success');
+				$scope.dis = true;
 				//$scope.readyMsg = "PLAYER IS READY";
-
 			};
-			//will modify later
-			$scope.dis = true;
 
 			$scope.$on('buttonReady', function () {
 				$scope.$apply(function () {
+					$('#readyBtn').text('I am ready.');
 					$scope.dis = false;
 				});
-				console.log("You can push the button.");
 			});
 
 			$scope.$on('play', function () {
@@ -55,16 +36,14 @@ myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', 
 					$rootScope.isFirstPlayer = true;
 				}
 				console.log('Is first player');
-
-				$scope.dis=true;
+				$scope.dis = true;
 				getNumGO('/play');
 			});
 
 			$scope.$on('waiting', function () {
 				console.log('waiting');
 				$rootScope.isFirstPlayer = false;
-
-				$scope.dis=true;
+				$scope.dis = true;
 				getNumGO('/waiting');
 			});
 
@@ -75,6 +54,22 @@ myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', 
 					$location.path('/home');
 				});
 			});
+
+			//getting numbers before going
+			function getNumGO(pathway) {
+				$rootScope.$apply(function () {
+					$scope.dis = true;
+				});
+				$.ajax(settings).done(function (response) {
+					console.log('received http get');
+					$rootScope.num = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];
+					$rootScope.ans = response.Ans;
+					$rootScope.probNums = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];
+					$rootScope.$apply(function () {
+						$location.path(pathway);
+					});
+				});
+			}
 
 		}
 	]);

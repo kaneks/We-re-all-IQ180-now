@@ -33,33 +33,33 @@ var userModel = {
 app.post('/u', function (req, res) {
 	if (!req.body.name) {
 		return res.send({
-			"status" : "1",
-			"message" : "missing a parameter"
+			'status' : '1',
+			'message' : 'missing a parameter'
 		});
 	} else {
 		MongoClient.connect(url, function (err, db) {
 			if (err) {
 				console.log('Unable to connect to the mongoDB server. Error:', err);
 				return res.send({
-					"status" : "1",
-					"message" : err
+					'status' : '1',
+					'message' : err
 				});
 			} else {
 				console.log('Connection established to', url);
 				var collection = db.collection('user');
 				var user = userModel;
 				user.name = req.body.name;
-				collection.insert([user], function (err, result) {
+				collection.insert([user], function (err, doc) {
 					if (err) {
 						console.log(err);
 						return res.send({
-							"status" : "1",
-							"message" : err
+							'status' : '1',
+							'message' : err
 						});
 					} else {
-						console.log('Inserted ' + user.name + ' into the "users" collection.');
 						return res.send({
-							"status" : "0"
+							'status' : '0',
+							'message' : 'user created'
 						});
 					}
 					db.close();
@@ -74,27 +74,31 @@ app.post('/u', function (req, res) {
 app.get('/u/:name', function (req, res) {
 	MongoClient.connect(url, function (err, db) {
 		if (err) {
-			console.log('Unable to connect to the mongoDB server. Error:', err);
+			return res.send({
+				'status' : 1,
+				'message' : err
+			});
 		} else {
-			console.log('Connection established to', url);
 			var collection = db.collection('user');
-			console.log(req.params);
 			collection.findOne({
 				'name' : req.params.name
-			}, function (err, item) {
+			}, function (err, doc) {
 				if (err) {
-					console.log(err);
 					return res.send({
-						"status" : "1",
-						"message" : err
+						'status' : 1,
+						'message' : err
 					});
-				} else if (item != null) {
-					//console.log('Found:', item);
-					return res.send(item);
+				} else if (doc != null) {
+					return res.send({
+						'status' : 0,
+						'message' : 'user found',
+						'user' : doc,
+						
+					});
 				} else {
 					return res.send({
-						"status" : "1",
-						"message" : "User not found"
+						'status' : 2,
+						'message' : 'user not found'
 					});
 				}
 				db.close();
@@ -141,12 +145,12 @@ app.get('/question', function (req, res) {
 	}
 
 	return res.send({
-		"Num1" : probNums[0],
-		"Num2" : probNums[1],
-		"Num3" : probNums[2],
-		"Num4" : probNums[3],
-		"Num5" : probNums[4],
-		"Ans" : temp
+		'Num1' : probNums[0],
+		'Num2' : probNums[1],
+		'Num3' : probNums[2],
+		'Num4' : probNums[3],
+		'Num5' : probNums[4],
+		'Ans' : temp
 	});
 
 
@@ -268,12 +272,12 @@ io.on('connection', function (socket) {
 app.post('/score', function (req, res) {
 	if (updateResult('Mickey', 'Kan', false)) {
 		res.send([{
-					"status" : "0"
+					'status' : '0'
 				}
 			]);
 	} else {
 		res.send([{
-					"status" : "1"
+					'status' : '1'
 				}
 			]);
 	}
