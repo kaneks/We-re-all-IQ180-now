@@ -32,7 +32,18 @@ myapp.controller("WaitCtrl",['$rootScope','$scope','$location','socketio',functi
         });
     });
 
+    $scope.$on('msgReceived',function (event, message) {
+        console.log("message received infront end");
+        console.log(message);
+        $rootScope.$apply(function () {
+            $rootScope.chatmsg = $rootScope.chatmsg+'\n'+ message.msg;
+        });
 
+    });
+
+    $scope.sendMsg = function () {
+        socketio.sendChat({msg : $scope.msg});
+    };
 
 
 

@@ -285,6 +285,8 @@ io.on('connection', function (socket) {
 	//Chat
 	
 	socket.on('chat message', function (data) {
+		console.log('received chat data in backend');
+		console.log(data.msg);
 		io.sockets.in(data.roomNumber).emit('chat message', data.msg);
 	});
 });

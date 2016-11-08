@@ -10,6 +10,7 @@ myapp.controller("HomeCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 			$rootScope.firstEnter = true;
 			$rootScope.highscore = null;
 			$rootScope.status = null;
+			$rootScope.chatmsg='';
 
 			$scope.signIn = function () {
 				socketio.setName($scope.user);

@@ -39,4 +39,13 @@
 			</div>
 		</div>
 	</div>
+
+	<div>
+		<textarea  rows="4" cols="30" ng-bind="chatmsg" readonly >{{chatmsg}}</textarea>
+		<div class="form-group">
+			<input ng-model="msg" type="text" class="form-control" id="usr"/>
+		</div>
+		<button  type="button" class="btn btn-primary" ng-click="sendMsg()">Send</button>
+	</div>
+
 </div>
