@@ -48,3 +48,17 @@
     	</div>
     </div>
 </div>
+
+<div class="col-xs-8 col-xs-offset-2">
+	<div class="panel panel-default">
+		<div class="panel-body text-center">
+		<div>
+		<textarea  ng-style="{width:100+'%'}" ng-bind="chatmsg" readonly >{{chatmsg}}</textarea>
+		<div class="form-group">
+			<input ng-model="msg" type="text" class="form-control" id="usr"/>
+		</div>
+		<button  type="button" class="btn btn-primary" ng-click="sendMsg()">Send</button>
+		</div>
+		</div>
+	</div>
+</div>

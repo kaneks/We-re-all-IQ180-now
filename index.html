@@ -26,6 +26,9 @@
     <!--Socket-->
     <script src="lib/socket.io-1.2.0.js"></script>
 
+    <!--Drawingboard-->
+    <script src="lib/drawingboard.min.js"></script>
+
     <!--CustomJS-->
     <script src="js/Module.js"></script>
     <script src="js/HomeCtrl.js"></script>
@@ -64,21 +67,25 @@
 </nav>
 
 <script>
+    
+    function changeToOceanBG() {
+        $('#mybody').css('background-image', 'url(/ocean.jpg)');
+    }
 
-function changeToOceanBG(){
-    $('#mybody').css('background-image', 'url(/ocean.jpg)');
-}
-
-function changeToSpaceBG(){
-    $('#mybody').css("background-image", "url(/space.jpg)");
-}
-
+    function changeToSpaceBG() {
+        $('#mybody').css("background-image", "url(/space.jpg)");
+    }
+    
 </script>
+
 <style>
 body {
     background-image: url(ocean.jpg);
 }
 </style>
-<div ng-view></div>
+
+<div class="center-block" ng-view></div>
+
+
 </body>
 </html>

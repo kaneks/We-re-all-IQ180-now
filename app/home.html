@@ -1,11 +1,31 @@
-<div class="col-xs-5"/>
-<div class="col-xs-2" style="padding-top: 10%">
+<div class="col-xs-4"/>
+<div class="col-xs-4" style="padding-top: 5%">
 	<div class="well">
+
 		<div class="form-group">
 			<label for="usr">Name:</label>
 			<input ng-model="user" type="text" class="form-control" id="usr"/>
 		</div>
 
 		<button ng-click="signIn()" type="button" class="btn btn-primary">Login</button>
+
 	</div>
+
+	<div class="well text-center"><span id='weather'></span></div>
+
 </div>
+</div>
+
+
+<script>
+var weather = {
+		"async": true,
+		"crossDomain": true,
+		"url": "http://api.openweathermap.org/data/2.5/weather?q=Bangkok&units=metric&APPID=537949986daf0906af3e477594ff3287",
+		"method": "GET"
+	};
+
+	$.ajax(weather).done(function (response) {
+		$("#weather").text("It's " + response.main.temp + " degrees celcius in Bangkok.");
+	});
+</script>

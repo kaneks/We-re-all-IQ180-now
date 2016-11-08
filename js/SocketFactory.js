@@ -25,6 +25,8 @@ function socketio($rootScope){
     service.submitStats = submitStats;
     service.draw = draw;
     service.clear = clear;
+    service.listenChat = listenChat;
+    service.sendChat = sendChat;
 
     return service;
 
@@ -37,6 +39,7 @@ function socketio($rootScope){
         win();
         lose();
         draw();
+        listenChat();
         //for testing
         $rootScope.$emit('test');
     }
@@ -172,5 +175,19 @@ function socketio($rootScope){
             $rootScope.$broadcast('clearAll');
 		});
 	}
+
+	function listenChat() {
+        console.log('listening');
+        socket.on('chat message', function (message) {
+            console.log('received message from chat');
+            console.log(message);
+            $rootScope.$broadcast('msgReceived',message);
+        });
+    }
+
+    function sendChat(txtMessage) {
+        console.log('sending '+txtMessage);
+        socket.emit('chat message',{msg:txtMessage , roomNumber:roomNum});
+    }
 
 }

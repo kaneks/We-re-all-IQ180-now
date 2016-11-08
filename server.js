@@ -254,6 +254,25 @@ io.on('connection', function (socket) {
 			io.sockets.in('monitors').emit('updateData', rooms);
 		}
 	});
+	socket.on('disconnect', function (){
+		for(var i = 0; i < rooms.length; i++){
+			if(socket.id == rooms[i].first.id || socket.id == rooms[i].second.id){
+				io.sockets.in(i).emit('clear');
+				if(socket.id == rooms[i].first.id){
+					console.log(rooms[i].first.name + ' abandoned the game.');
+					console.log(rooms[i].second.name + ' disconnected.');
+				} else {
+					console.log(rooms[i].second.name + ' abandoned the game.');
+					console.log(rooms[i].first.name + ' disconnected.');
+				}
+				break;
+			}
+		}
+	});
+	
+	
+	//Monitor
+	
 	socket.on('requestData', function (){
 		socket.join('monitors');
 		socket.emit('updateData', rooms);
@@ -262,7 +281,12 @@ io.on('connection', function (socket) {
 		io.emit('clear');
 		console.log('cleared!');
 	});
+	
+	//Chat
+	
 	socket.on('chat message', function (data) {
+		console.log('received chat data in backend');
+		console.log(data.msg);
 		io.sockets.in(data.roomNumber).emit('chat message', data.msg);
 	});
 });
