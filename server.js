@@ -262,6 +262,8 @@ io.on('connection', function (socket) {
 				console.log('Emitted \'draw\' to ' + rooms[data.roomNumber].second.name);
 				updateResult(rooms[data.roomNumber].first.name, rooms[data.roomNumber].second.name, true);
 			}
+			rooms[data.roomNumber].first.ready = false;
+			rooms[data.roomNumber].second.ready = false;
 			io.sockets.in('monitors').emit('updateData', rooms);
 		}
 	});
@@ -270,7 +272,7 @@ io.on('connection', function (socket) {
 		for (var i = 0; i < rooms.length; i++) {
 			if (socket.id == rooms[i].first.id || socket.id == rooms[i].second.id) {
 				io.sockets.in(i).emit('clear');
-				if((socket.id == rooms[i].first.id && rooms.second.id == '') || (socket.id == rooms[i].second.id && rooms.first.id == '')){
+				if((socket.id == rooms[i].first.id && rooms[i].second.id == '') || (socket.id == rooms[i].second.id && rooms[i].first.id == '')){
 					roomCount++;
 					break;
 				}

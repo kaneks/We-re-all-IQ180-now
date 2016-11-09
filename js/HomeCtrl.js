@@ -72,7 +72,7 @@ myapp.controller("HomeCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 				}
 			});
 			
-			socketio.init();
+			//socketio.init();
 
 		}
 	]);

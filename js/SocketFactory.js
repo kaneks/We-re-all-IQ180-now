@@ -5,33 +5,11 @@ function socketio($rootScope) {
 	var socket = io.connect(window.location.origin);
 	var name = 'test';
 	var roomNum;
-
-	var service = {};
-
-	//emits 'ready' when is ready
-
-	service.setName = setName;
-	service.getName = getName;
-	service.join = join;
-	service.ready = ready;
-	service.assignRoom = assignRoom;
-	service.startGame = startGame;
-	service.waitGame = waitGame;
-	service.playerReady = playerReady;
-	service.win = win;
-	service.lose = lose;
-	service.init = init;
-	service.submitStats = submitStats;
-	service.draw = draw;
-	service.clear = clear;
-	service.listenChat = listenChat;
-	service.sendChat = sendChat;
-
-	return service;
-
+	
+	init();
+	
 	function init() {
 		clear();
-		assignRoom();
 		ready();
 		startGame();
 		waitGame();
@@ -39,8 +17,6 @@ function socketio($rootScope) {
 		lose();
 		draw();
 		listenChat();
-		//for testing
-		$rootScope.$emit('test');
 	}
 
 	function setName(name) {
@@ -61,27 +37,6 @@ function socketio($rootScope) {
 		socket.emit('playerReady', roomNum);
 		console.log(roomNum);
 
-	}
-	//back end assign room
-	function assignRoom() {
-		socket.on('assignRoom', function (data) {
-			/*
-			console.log(data.room);
-			console.log(data.roomNumber);
-			roomNumber = data.roomNumber;
-			setRoomNumber(roomNumber);
-			console.log('room assigned');
-			console.log(socket.id);
-			console.log(data.room.first.id);
-			//socket id was null need to change logic
-			if ($rootScope.username === data.room.first.name) {
-				$rootScope.opponentName = data.room.second.name;
-			} else {
-				$rootScope.opponentName = data.room.first.name;
-			}
-			console.log($rootScope.opponentName + ' is the opponent');
-			*/
-		});
 	}
 
 	function ready() {
@@ -119,6 +74,7 @@ function socketio($rootScope) {
 	}
 
 	function startGame() {
+		console.log('STARTSTARTSTARTSTARTSTART');
 		socket.on('start', function () {
 			//START GAME AND RECORD TIME
 			//EMIT TIME (miliseconds) TO SERVER ONCE PLAYER FINISHES, EMIT 60000 IF PLAYER DOESNT FINISH ON WITHIN 1 MINUTE
@@ -142,6 +98,7 @@ function socketio($rootScope) {
 	}
 
 	function waitGame() {
+		console.log('WAITWAITWAITWAITWAIT');
 		//SET PAGE TO WAIT
 		socket.on('wait', function () {
 			//will do later
@@ -209,5 +166,27 @@ function socketio($rootScope) {
 			roomNumber : roomNum
 		});
 	}
+	
+	var service = {};
+
+	//emits 'ready' when is ready
+
+	service.setName = setName;
+	service.getName = getName;
+	service.join = join;
+	service.ready = ready;
+	service.startGame = startGame;
+	service.waitGame = waitGame;
+	service.playerReady = playerReady;
+	service.win = win;
+	service.lose = lose;
+	service.init = init;
+	service.submitStats = submitStats;
+	service.draw = draw;
+	service.clear = clear;
+	service.listenChat = listenChat;
+	service.sendChat = sendChat;
+
+	return service;
 
 }
