@@ -25,7 +25,7 @@ myapp.controller("WinLoseCtrl",['$rootScope','$scope','$location','socketio',fun
 
             //will testing new question getting
             $rootScope.$apply(function () {
-                $location.path(pathway);
+                $location.path('/ready');
             });
 
         }else{
