@@ -21,11 +21,7 @@ myapp.controller("HomeCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 					"async" : true,
 					"crossDomain" : true,
 					"url" : "/u/" + $rootScope.username,
-					"method" : "GET",
-					"headers" : {
-						"cache-control" : "no-cache",
-						"postman-token" : "9934f8b5-d4b5-3610-7372-d756a6e7ed87"
-					}
+					"method" : "GET"
 				}
 
 				$.ajax(settings2).done(function (response) {
@@ -39,11 +35,6 @@ myapp.controller("HomeCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 								"crossDomain" : true,
 								"url" : "/u",
 								"method" : "POST",
-								"headers" : {
-									"content-type" : "application/x-www-form-urlencoded",
-									"cache-control" : "no-cache",
-									"postman-token" : "8ddc7b40-66d8-874a-77dc-25eb42355430"
-								},
 								"data" : {
 									"name" : $rootScope.username
 								}

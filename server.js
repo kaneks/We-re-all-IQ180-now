@@ -21,13 +21,6 @@ app.get('/monitor', function (req, res) {
 	res.sendFile(__dirname + '/monitor.html');
 });
 
-var userModel = {
-	name : '',
-	points : 0,
-	wins : 0,
-	losses : 0
-};
-
 //Create a new user with name
 
 app.post('/u', function (req, res) {
@@ -47,9 +40,14 @@ app.post('/u', function (req, res) {
 			} else {
 				console.log('Connection established to', url);
 				var collection = db.collection('user');
-				var user = userModel;
+				var user = {
+					name : '',
+					points : 0,
+					wins : 0,
+					losses : 0
+				};
 				user.name = req.body.name;
-				collection.insert([user], function (err, doc) {
+				collection.insert(user, function (err, doc) {
 					if (err) {
 						console.log(err);
 						return res.send({
@@ -93,7 +91,7 @@ app.get('/u/:name', function (req, res) {
 						'status' : 0,
 						'message' : 'user found',
 						'user' : doc,
-						
+
 					});
 				} else {
 					return res.send({
@@ -110,35 +108,35 @@ app.get('/u/:name', function (req, res) {
 //generate question and ans
 app.get('/question', function (req, res) {
 	var probNums = [];
-	for(var i = 0; i < 5; i ++){
-		 probNums[i] = Math.floor(Math.random() * 10);
+	for (var i = 0; i < 5; i++) {
+		probNums[i] = Math.floor(Math.random() * 10);
 	}
 
 	var count = 0;
 	var genNums = [];
-
-	while(true){
-		if(count == 5) break;
+	while (true) {
+		if (count == 5)
+			break;
 		var ranNum = Math.floor(Math.random() * 5);
-		if(genNums[ranNum] == null){
+		if (genNums[ranNum] == null) {
 			genNums[ranNum] = probNums[count];
 			count++;
 		}
 	}
 
 	var temp = genNums[0];
-	for(var i = 0; i < 4; i++){
+	for (var i = 0; i < 4; i++) {
 		var opSelector = Math.floor(Math.random() * 4);
-		if(opSelector == 0){
+		if (opSelector == 0) {
 			temp += genNums[i + 1];
-		}else if(opSelector == 1){
+		} else if (opSelector == 1) {
 			temp -= genNums[i + 1];
-		}else if(opSelector == 2){
+		} else if (opSelector == 2) {
 			temp *= genNums[i + 1];
-		}else{
-			if((temp%genNums[i + 1]) == 0){
+		} else {
+			if ((temp % genNums[i + 1]) == 0) {
 				temp /= genNums[i + 1];
-			}else{
+			} else {
 				i--;
 			}
 		}
@@ -152,7 +150,6 @@ app.get('/question', function (req, res) {
 		'Num5' : probNums[4],
 		'Ans' : temp
 	});
-
 
 });
 
@@ -190,12 +187,12 @@ io.on('connection', function (socket) {
 			io.sockets.in('monitors').emit('updateData', rooms);
 			/*
 			io.sockets.in(roomCount).emit('assignRoom', {
-				'roomNumber' : roomCount,
-				'room' : rooms[roomCount]
+			'roomNumber' : roomCount,
+			'room' : rooms[roomCount]
 			});
 			console.log('Emitted \'assignRoom\' to ' + rooms[roomCount].first.name);
 			console.log('Emitted \'assignRoom\' to ' + rooms[roomCount].second.name);
-			*/
+			 */
 			io.sockets.in(roomCount).emit('gameReady', {
 				'roomNumber' : roomCount,
 				'room' : rooms[roomCount]
@@ -259,12 +256,12 @@ io.on('connection', function (socket) {
 			io.sockets.in('monitors').emit('updateData', rooms);
 		}
 	});
-	socket.on('disconnect', function (){
+	socket.on('disconnect', function () {
 		console.log(socket.id + ' abandoned the game.');
-		for(var i = 0; i < rooms.length; i++){
-			if(socket.id == rooms[i].first.id || socket.id == rooms[i].second.id){
+		for (var i = 0; i < rooms.length; i++) {
+			if (socket.id == rooms[i].first.id || socket.id == rooms[i].second.id) {
 				io.sockets.in(i).emit('clear');
-				if(socket.id == rooms[i].first.id){
+				if (socket.id == rooms[i].first.id) {
 					console.log(rooms[i].first.name + ' abandoned the game.');
 					console.log(rooms[i].second.name + ' disconnected.');
 				} else {
@@ -275,10 +272,10 @@ io.on('connection', function (socket) {
 			}
 		}
 	});
-	
+
 	//Monitor
-	
-	socket.on('requestData', function (){
+
+	socket.on('requestData', function () {
 		socket.join('monitors');
 		socket.emit('updateData', rooms);
 	});
@@ -289,9 +286,9 @@ io.on('connection', function (socket) {
 		roomCount = 0;
 		socket.emit('updateData', rooms);
 	});
-	
+
 	//Chat
-	
+
 	socket.on('chat message', function (data) {
 		console.log('received chat data in backend');
 		console.log(data.msg);
@@ -345,6 +342,6 @@ function updateResult(winnerName, loserName, draw) {
 	});
 }
 
-http.listen(80, function () {
+http.listen(3000, function () {
 	console.log('listening on 80');
 });

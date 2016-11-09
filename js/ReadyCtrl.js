@@ -7,11 +7,7 @@ myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', 
 				"async" : true,
 				"crossDomain" : true,
 				"url" : "/question",
-				"method" : "GET",
-				"headers" : {
-					"cache-control" : "no-cache",
-					"postman-token" : "1acc73f6-96cc-809e-aebd-d6b2726566d6"
-				}
+				"method" : "GET"
 			}
 
 			$('#readyBtn').text('Waiting for opponent to join.');
