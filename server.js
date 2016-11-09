@@ -106,7 +106,7 @@ app.get('/u/:name', function (req, res) {
 });
 
 //generate question and ans
-generateQuestion function () {
+function generateQuestion() {
 	var probNums = [];
 	for (var i = 0; i < 5; i++) {
 		probNums[i] = Math.floor(Math.random() * 10);
@@ -161,13 +161,15 @@ io.on('connection', function (socket) {
 		socket.join(roomCount);
 		if (io.sockets.adapter.rooms[roomCount].length == 1) {
 			rooms[roomCount] = {
-				'first':{
-					'id':'','name':''
-				}, 
-				'second':{
-					'id':'','name':''
-				}, 
-				'roomNumber':''
+				'first' : {
+					'id' : '',
+					'name' : ''
+				},
+				'second' : {
+					'id' : '',
+					'name' : ''
+				},
+				'roomNumber' : ''
 			};
 			//rooms[roomCount].first = {};
 			//rooms[roomCount].second = {};
