@@ -5,3 +5,11 @@ myapp.controller('TimeCtrl', function($scope, $interval) {
   tick();
   $interval(tick, 1000);
 });
+
+function changeToOceanBG(){
+	$('body').css('background-image', 'url(ocean.jpg)');
+}
+
+function changeToSpaceBG(){
+	$('body').css('background-image', 'url(space.jpg)');
+}

@@ -65,10 +65,13 @@ myapp.controller("HomeCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 
 				$location.path('/ready');
 			};
-
-			$scope.$on('test', function () {
-				console.log("rootscope works");
+			
+			$('#usr').keypress(function(e) {
+				if(e.which == 13) {
+					$scope.signIn();
+				}
 			});
+			
 			socketio.init();
 
 		}
