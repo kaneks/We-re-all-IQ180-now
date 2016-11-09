@@ -21,12 +21,12 @@ myapp.controller("WinLoseCtrl",['$rootScope','$scope','$location','socketio',fun
 
     function startCountdown() {
         if(time <0){
-        //    socketio.playerReady();
+            socketio.playerReady();
 
             //will testing new question getting
-            $rootScope.$apply(function () {
-                $location.path('/ready');
-            });
+            // $rootScope.$apply(function () {
+            //     $location.path('/ready');
+            // });
 
         }else{
             $('#time').text(time/1000);
