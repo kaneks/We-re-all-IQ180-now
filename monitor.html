@@ -9,22 +9,6 @@
 		<!-- Title -->
 		<title>IQ180</title>
 
-		<!--Bootstrap-->
-		<link rel="stylesheet" href="css/bootstrap.min.css"/>
-		<link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
-		<script src="lib/bootstrap.js"></script>
-
-		<!--Custom CSS-->
-		<link rel="stylesheet" href="css/web1.css"/>
-
-		<!--jQuery-->
-		<script src = "lib/jquery-3.1.1.min.js"></script>
-
-		<!--Socket-->
-		<script src = "lib/socket.io-1.2.0.js"></script>
-
-		<!--CustomJS-->
-		<script src = "js/monitor.js"></script>
 	</head>
 
 	<body>
@@ -36,13 +20,30 @@
 				</div>
 			</div>
 		</nav>
+		<div class="col-xs-3" ></div>
+		<div class="col-xs-6" style="padding-top: 5%">
 		<div class="well">
-			<button type="button" class="btn btn-danger" id="clearButton">Clear</button>
+			<button type="button" class="btn btn-danger" id="clearBtn">Clear</button>
 
 			<span id="currentPlayers"></span>
 			
 			<ul class="list-group" id="playersList">
 			</ul>
 		</div>
+		</div>
+
+		<!--Bootstrap-->
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
+		<script src="lib/bootstrap.js"></script>
+
+		<!--jQuery-->
+		<script src = "lib/jquery-3.1.1.min.js"></script>
+
+		<!--Socket-->
+		<script src = "lib/socket.io-1.2.0.js"></script>
+		
+		<!--CustomJS-->
+		<script src = "js/monitor.js"></script>
 	</body>
 </html>

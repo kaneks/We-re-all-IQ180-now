@@ -4,6 +4,11 @@ rooms = [];
 
 socket.emit('requestData');
 
+$('#clearBtn').click(function(){
+	console.log('requestClear');
+	socket.emit('requestClear');
+});
+
 socket.on('updateData', function(data){
 	//rooms.clear();
 	rooms = data;

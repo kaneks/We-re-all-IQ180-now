@@ -278,8 +278,11 @@ io.on('connection', function (socket) {
 		socket.emit('updateData', rooms);
 	});
 	socket.on('requestClear', function () {
+		console.log('Received \'requestClear\' from ' + socket.id);
 		io.emit('clear');
-		console.log('cleared!');
+		rooms = [];
+		roomCount = 0;
+		socket.emit('updateData', rooms);
 	});
 	
 	//Chat
