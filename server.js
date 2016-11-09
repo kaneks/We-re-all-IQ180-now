@@ -106,7 +106,7 @@ app.get('/u/:name', function (req, res) {
 });
 
 //generate question and ans
-app.get('/question', function (req, res) {
+generateQuestion function () {
 	var probNums = [];
 	for (var i = 0; i < 5; i++) {
 		probNums[i] = Math.floor(Math.random() * 10);
@@ -142,16 +142,12 @@ app.get('/question', function (req, res) {
 		}
 	}
 
-	return res.send({
-		'Num1' : probNums[0],
-		'Num2' : probNums[1],
-		'Num3' : probNums[2],
-		'Num4' : probNums[3],
-		'Num5' : probNums[4],
-		'Ans' : temp
-	});
+	return {
+		'nums' : probNums,
+		'ans' : temp
+	};
 
-});
+};
 
 //Socket
 
@@ -164,10 +160,18 @@ io.on('connection', function (socket) {
 			roomCount++;
 		socket.join(roomCount);
 		if (io.sockets.adapter.rooms[roomCount].length == 1) {
-			rooms[roomCount] = {};
-			rooms[roomCount].first = {};
-			rooms[roomCount].second = {};
-			rooms[roomCount].roomNumber = roomCount;
+			rooms[roomCount] = {
+				'first':{
+					'id':'','name':''
+				}, 
+				'second':{
+					'id':'','name':''
+				}, 
+				'roomNumber':''
+			};
+			//rooms[roomCount].first = {};
+			//rooms[roomCount].second = {};
+			//rooms[roomCount].roomNumber = roomCount;
 			if (Math.random() < 0.5) {
 				rooms[roomCount].first.id = socket.id;
 				rooms[roomCount].first.name = name;
@@ -195,7 +199,8 @@ io.on('connection', function (socket) {
 			 */
 			io.sockets.in(roomCount).emit('gameReady', {
 				'roomNumber' : roomCount,
-				'room' : rooms[roomCount]
+				'room' : rooms[roomCount],
+				'question' : generateQuestion()
 			});
 			console.log('Emitted \'gameReady\' to ' + rooms[roomCount].first.name);
 			console.log('Emitted \'gameReady\' to ' + rooms[roomCount].second.name);
@@ -271,6 +276,7 @@ io.on('connection', function (socket) {
 				break;
 			}
 		}
+		io.sockets.in('monitors').emit('updateData', rooms);
 	});
 
 	//Monitor
