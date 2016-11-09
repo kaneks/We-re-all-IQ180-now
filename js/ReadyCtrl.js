@@ -6,7 +6,7 @@ myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', 
 			var settings = {
 				"async" : true,
 				"crossDomain" : true,
-				"url" : "http://localhost:3000/question",
+				"url" : "/question",
 				"method" : "GET",
 				"headers" : {
 					"cache-control" : "no-cache",

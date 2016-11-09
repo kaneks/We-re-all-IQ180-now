@@ -188,13 +188,18 @@ io.on('connection', function (socket) {
 				rooms[roomCount].first.name = name;
 			}
 			io.sockets.in('monitors').emit('updateData', rooms);
+			/*
 			io.sockets.in(roomCount).emit('assignRoom', {
 				'roomNumber' : roomCount,
 				'room' : rooms[roomCount]
 			});
 			console.log('Emitted \'assignRoom\' to ' + rooms[roomCount].first.name);
 			console.log('Emitted \'assignRoom\' to ' + rooms[roomCount].second.name);
-			io.sockets.in(roomCount).emit('gameReady');
+			*/
+			io.sockets.in(roomCount).emit('gameReady', {
+				'roomNumber' : roomCount,
+				'room' : rooms[roomCount]
+			});
 			console.log('Emitted \'gameReady\' to ' + rooms[roomCount].first.name);
 			console.log('Emitted \'gameReady\' to ' + rooms[roomCount].second.name);
 			rooms[roomCount].first.ready = false;
@@ -271,7 +276,6 @@ io.on('connection', function (socket) {
 		}
 	});
 	
-	
 	//Monitor
 	
 	socket.on('requestData', function (){
@@ -293,22 +297,6 @@ io.on('connection', function (socket) {
 		console.log(data.msg);
 		io.sockets.in(data.roomNumber).emit('chat message', data.msg);
 	});
-});
-
-//Scoring
-
-app.post('/score', function (req, res) {
-	if (updateResult('Mickey', 'Kan', false)) {
-		res.send([{
-					'status' : '0'
-				}
-			]);
-	} else {
-		res.send([{
-					'status' : '1'
-				}
-			]);
-	}
 });
 
 function updateResult(winnerName, loserName, draw) {
@@ -357,6 +345,6 @@ function updateResult(winnerName, loserName, draw) {
 	});
 }
 
-http.listen(3000, function () {
+http.listen(80, function () {
 	console.log('listening on 80');
 });
