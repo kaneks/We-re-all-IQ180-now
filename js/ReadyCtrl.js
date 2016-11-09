@@ -63,6 +63,7 @@ myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', 
 					$rootScope.num = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];
 					$rootScope.ans = response.Ans;
 					$rootScope.probNums = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];
+					console.log(response);
 					$rootScope.$apply(function () {
 						$location.path(pathway);
 					});
