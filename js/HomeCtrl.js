@@ -20,7 +20,7 @@ myapp.controller("HomeCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 				var settings2 = {
 					"async" : true,
 					"crossDomain" : true,
-					"url" : "http://localhost:3000/u/" + $rootScope.username,
+					"url" : "/u/" + $rootScope.username,
 					"method" : "GET",
 					"headers" : {
 						"cache-control" : "no-cache",
@@ -37,7 +37,7 @@ myapp.controller("HomeCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 							var settings2 = {
 								"async" : true,
 								"crossDomain" : true,
-								"url" : "http://localhost:3000/u",
+								"url" : "/u",
 								"method" : "POST",
 								"headers" : {
 									"content-type" : "application/x-www-form-urlencoded",
