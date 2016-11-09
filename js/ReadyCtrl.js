@@ -60,6 +60,7 @@ myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', 
 				});
 				$.ajax(settings).done(function (response) {
 					console.log('received http get');
+					console.log(response);
 					$rootScope.num = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];
 					$rootScope.ans = response.Ans;
 					$rootScope.probNums = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];

@@ -15,13 +15,13 @@ myapp.controller("PlayCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 			var ans = $rootScope.ans;
 			var probNums = $rootScope.probNums;
 			$scope.greetName = 'Welcome, ' + $rootScope.username;
-
 			$scope.customStyle = {};
 			var check = [true, true, true, true, true];
 
 			$scope.check = function () {
 				reset();
 				var ansFormula = $scope.ansField;
+
 				if (ansFormula.length != 0) {
 					var ansNums = ansFormula.match(/\d/g).map(Number);
 					for (var i = 0; i < ansNums.length; i++) {

@@ -7,6 +7,7 @@ myapp.controller("WinLoseCtrl",['$rootScope','$scope','$location','socketio',fun
     var time = 10000;
     $rootScope.firstEnter=false;
 
+
     var settings = {
         "async": true,
         "crossDomain": true,
@@ -20,7 +21,6 @@ myapp.controller("WinLoseCtrl",['$rootScope','$scope','$location','socketio',fun
 
     function startCountdown() {
         if(time <0){
-          getNumGO();
             socketio.playerReady();
         }else{
             $('#time').text(time/1000);
@@ -39,9 +39,11 @@ myapp.controller("WinLoseCtrl",['$rootScope','$scope','$location','socketio',fun
 
     startCountdown();
 
-    function getNumGO(pathway){
+    function getNumGO(pathway) {
+
         $.ajax(settings).done(function (response) {
             console.log('received http get');
+            console.log(response);
             $rootScope.num = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];
             $rootScope.ans = response.Ans;
             $rootScope.probNums = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];
@@ -49,7 +51,6 @@ myapp.controller("WinLoseCtrl",['$rootScope','$scope','$location','socketio',fun
                 $location.path(pathway);
             });
         });
-
     }
 
     $scope.$on('play', function () {
