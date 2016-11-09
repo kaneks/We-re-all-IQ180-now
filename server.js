@@ -163,13 +163,15 @@ io.on('connection', function (socket) {
 			rooms[roomCount] = {
 				'first' : {
 					'id' : '',
-					'name' : ''
+					'name' : '',
+					'ready' : false
 				},
 				'second' : {
 					'id' : '',
-					'name' : ''
+					'name' : '',
+					'ready' : false
 				},
-				'roomNumber' : ''
+				'roomNumber' : roomCount
 			};
 			//rooms[roomCount].first = {};
 			//rooms[roomCount].second = {};
@@ -183,7 +185,7 @@ io.on('connection', function (socket) {
 			}
 			io.sockets.in('monitors').emit('updateData', rooms);
 		} else {
-			if (rooms[roomCount].first.id != null) {
+			if (rooms[roomCount].first.id != '') {
 				rooms[roomCount].second.id = socket.id;
 				rooms[roomCount].second.name = name;
 			} else {
@@ -206,8 +208,8 @@ io.on('connection', function (socket) {
 			});
 			console.log('Emitted \'gameReady\' to ' + rooms[roomCount].first.name);
 			console.log('Emitted \'gameReady\' to ' + rooms[roomCount].second.name);
-			rooms[roomCount].first.ready = false;
-			rooms[roomCount].second.ready = false;
+			//rooms[roomCount].first.ready = false;
+			//rooms[roomCount].second.ready = false;
 		}
 	});
 	socket.on('playerReady', function (roomNumber) {
@@ -268,6 +270,10 @@ io.on('connection', function (socket) {
 		for (var i = 0; i < rooms.length; i++) {
 			if (socket.id == rooms[i].first.id || socket.id == rooms[i].second.id) {
 				io.sockets.in(i).emit('clear');
+				if((socket.id == rooms[i].first.id && rooms.second.id == '') || (socket.id == rooms[i].second.id && rooms.first.id == '')){
+					roomCount++;
+					break;
+				}
 				if (socket.id == rooms[i].first.id) {
 					console.log(rooms[i].first.name + ' abandoned the game.');
 					console.log(rooms[i].second.name + ' disconnected.');
@@ -298,9 +304,13 @@ io.on('connection', function (socket) {
 	//Chat
 
 	socket.on('chat message', function (data) {
-		console.log('received chat data in backend');
+		//console.log('received chat data in backend');
+		if(socket.id == rooms[data.roomNumber].first.id){
+			io.sockets.in(data.roomNumber).emit('chat message', rooms[data.roomNumber].first.name + " : " + data.msg);
+		} else {
+			io.sockets.in(data.roomNumber).emit('chat message', rooms[data.roomNumber].second.name + " : " + data.msg);
+		}
 		console.log(data.msg);
-		io.sockets.in(data.roomNumber).emit('chat message', data.msg);
 	});
 });
 

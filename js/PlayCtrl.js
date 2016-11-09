@@ -8,7 +8,6 @@ myapp.controller("PlayCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 			//will need to implement the score later.
 			var score = null;
 			var time = 60000;
-			console.log($rootScope.test);
 			//current round number
 
 			const MAX_ROUNDS = 5;
@@ -145,25 +144,6 @@ myapp.controller("PlayCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 					$location.path('/waiting');
 				});
 			});
-			//CHAT AND LOG
-
-			/*
-			$('form').submit(function () {
-			socket.emit('chat message', {
-			'roomNumber' : roomNumber,
-			'msg' : $('#m').val()
-			});
-			$('#m').val('');
-			return false;
-			});
-
-			socket.on('chat message', function (msg) {
-			$('#messages').append($('<li>').text(msg));
-			});
-			socket.on('log', function (msg) {
-			console.log(msg);
-			});
-			 */
 
 			$scope.$on('clearAll', function () {
 				console.log('clearing');
@@ -177,16 +157,22 @@ myapp.controller("PlayCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 				console.log("message received infront end");
 				console.log(message);
 				$rootScope.$apply(function () {
-					$rootScope.chatmsg = $rootScope.chatmsg + '\n' + message.msg;
+					$rootScope.chatmsg = $rootScope.chatmsg + '\n' + message;
 				});
 
 			});
 
 			$scope.sendMsg = function () {
-				socketio.sendChat({
-					msg : $scope.msg
-				});
+				socketio.sendChat($scope.msg);
+				$scope.msg = '';
 			};
+
+			$('#msgBox').keypress(function (e) {
+				if (e.which == 13) {
+					socketio.sendChat($scope.msg);
+					$scope.msg = '';
+				}
+			});
 
 		}
 	]);
