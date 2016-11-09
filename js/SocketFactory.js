@@ -101,6 +101,13 @@ function socketio($rootScope) {
 			} else {
 				$rootScope.opponentName = data.room.first.name;
 			}
+
+			$rootScope.num = [data.question.nums[0], data.question.nums[1], data.question.nums[2]
+				, data.question.nums[3], data.question.nums[4]];
+			    $rootScope.ans = data.question.ans;
+			    $rootScope.probNums = [data.question.nums[0], data.question.nums[1], data.question.nums[2]
+					, data.question.nums[3], data.question.nums[4]];
+
 			console.log($rootScope.opponentName + ' is the opponent.');
 			setTimeout(function () {
 				//your code to be executed after 1 second

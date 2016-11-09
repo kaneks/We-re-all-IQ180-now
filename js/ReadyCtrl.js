@@ -3,12 +3,12 @@ myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', 
 			$scope.greetName = 'Welcome, '+$rootScope.username;
 
 			var play = null;
-			var settings = {
-				"async" : true,
-				"crossDomain" : true,
-				"url" : "/question",
-				"method" : "GET"
-			}
+			// var settings = {
+			// 	"async" : true,
+			// 	"crossDomain" : true,
+			// 	"url" : "/question",
+			// 	"method" : "GET"
+			// }
 
 			$('#readyBtn').text('Waiting for opponent to join.');
 			$scope.dis = true;
@@ -57,18 +57,19 @@ myapp.controller("ReadyCtrl", ['$rootScope', '$scope', '$location', 'socketio', 
 			function getNumGO(pathway) {
 				$rootScope.$apply(function () {
 					$scope.dis = true;
+					$location.path(pathway);
 				});
-				$.ajax(settings).done(function (response) {
-					console.log('received http get');
-					console.log(response);
-					$rootScope.num = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];
-					$rootScope.ans = response.Ans;
-					$rootScope.probNums = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];
-					console.log(response);
-					$rootScope.$apply(function () {
-						$location.path(pathway);
-					});
-				});
+				// $.ajax(settings).done(function (response) {
+				// 	console.log('received http get');
+				// 	console.log(response);
+				// 	$rootScope.num = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];
+				// 	$rootScope.ans = response.Ans;
+				// 	$rootScope.probNums = [response.Num1, response.Num2, response.Num3, response.Num4, response.Num5];
+				// 	console.log(response);
+				// 	$rootScope.$apply(function () {
+				// 		$location.path(pathway);
+				// 	});
+				// });
 			}
 
 		}
