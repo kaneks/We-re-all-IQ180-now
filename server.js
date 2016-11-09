@@ -255,6 +255,7 @@ io.on('connection', function (socket) {
 		}
 	});
 	socket.on('disconnect', function (){
+		console.log(socket.id + ' abandoned the game.');
 		for(var i = 0; i < rooms.length; i++){
 			if(socket.id == rooms[i].first.id || socket.id == rooms[i].second.id){
 				io.sockets.in(i).emit('clear');
