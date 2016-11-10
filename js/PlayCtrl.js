@@ -17,7 +17,25 @@ myapp.controller("PlayCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 			$scope.customStyle = {};
 			var check = [true, true, true, true, true];
 
-			$scope.check = function () {
+			// $scope.check = function () {
+			// 	reset();
+			// 	var ansFormula = $scope.ansField;
+            //
+			// 	if (ansFormula.length != 0) {
+			// 		var ansNums = ansFormula.match(/\d/g).map(Number);
+			// 		for (var i = 0; i < ansNums.length; i++) {
+			// 			for (var j = 0; j < probNums.length; j++) {
+			// 				if ((ansNums[i] == probNums[j]) && check[j]) {
+			// 					check[j] = false;
+			// 					turnRed(j);
+			// 					break;
+			// 				}
+			// 			}
+			// 		}
+			// 	}
+			// }
+
+			function numChange () {
 				reset();
 				var ansFormula = $scope.ansField;
 
@@ -34,6 +52,32 @@ myapp.controller("PlayCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 					}
 				}
 			}
+
+			var wasNum = false;
+			//use after the expression is found
+                //
+
+					$('#ans').bind('keypress', function(e) {
+					var txt = String.fromCharCode(e.which);
+					console.log(txt + ' : ' + e.which);
+					if(txt.match(/[0-9]/)&&!wasNum) {
+						wasNum = true;
+						for(var i=0;i<probNums.length ; i++){
+							
+						}
+
+						numChange();
+
+						//return false;
+					}else if(txt.match(/[\*\-\+\/\(\)]/)||e.which ==8){
+						wasNum=false;
+						numChange();
+					}else {
+						return false;
+					}
+				});
+
+
 
 			function turnRed(num) {
 				switch (num) {
@@ -86,25 +130,28 @@ myapp.controller("PlayCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 
 			$scope.checkAns = function () {
 				var ansFormula = $scope.ansField;
-				var ansNums = ansFormula.match(/\d/g).map(Number);
-				//for bug checking will have to change back
-				//if(angular.equals(ansNums.sort(),probNums.sort())){
-				if (true) {
-					//if(eval(ansFormula) == ans){
-					if (true) {
-						console.log('RIGHT');
-						//for pausing the number when correct answer
-						subCorrect = true;
-						//time.round(); gonna need to put back stuff if implementation failed
-						$scope.time = time;
-						socketio.submitStats($scope.time);
 
-						//	time.toFixed(1);
-					} else {
-						console.log('WRONG');
+				var ansNums = ansFormula.match(/\d/g).map(Number);
+				if(ansNums != null) {
+					//for bug checking will have to change back
+					if (angular.equals(ansNums.sort(), probNums.sort())) {
+						if (eval(ansFormula) == ans) {
+							if (true) {
+								console.log('RIGHT');
+								//for pausing the number when correct answer
+								subCorrect = true;
+								//time.round(); gonna need to put back stuff if implementation failed
+								$scope.time = time;
+								socketio.submitStats($scope.time);
+
+								//	time.toFixed(1);
+							} else {
+								console.log('WRONG');
+							}
+						} else {
+							console.log('INCOMPLETE');
+						}
 					}
-				} else {
-					console.log('INCOMPLETE');
 				}
 			};
 
