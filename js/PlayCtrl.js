@@ -8,6 +8,8 @@ myapp.controller("PlayCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 			//will need to implement the score later.
 			var score = null;
 			var time = 60000;
+			var sTime = new Date().getTime();
+			var countDown = 60;
 			//current round number
 
 			const MAX_ROUNDS = 5;
@@ -200,22 +202,20 @@ myapp.controller("PlayCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 			};
 
 			function startCountdown() {
-				$scope.countdown = Math.round(time / 1000);
-				//console.log($scope.countdown);
-				if (time < 0) {
-					//code for exiting
-					//need to find a way to check if still have to wait for other player
-					$scope.time = time;
+			    var cTime = new Date().getTime();
+			    if(time < 0){
+			    	$scope.time = 0;
 					socketio.submitStats(0);
-				} else if (!subCorrect) {
-					$('#time').text(time / 1000);
-					time = time - 100;
-
-					//can modify if want better time
-					setTimeout(startCountdown, 100);
-				}
-			};
-
+			    }else if(!subCorrect){
+			    	var diff = cTime - sTime;
+			    	var seconds = countDown - Math.floor(diff / 1000);
+			    	$scope.countdown = seconds;
+			    	time = 60000 - diff;
+			    	setTimeout(startCountdown, 100);
+			    }
+			    //show seconds
+			}
+			
 			startCountdown();
 
 			//for testing code

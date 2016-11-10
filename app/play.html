@@ -5,7 +5,7 @@
         <div class="row">
         	<div class="progress">
         		<div class="progress-bar" role="progressbar" aria-valuenow="{{countdown}}" aria-valuemin="0" aria-valuemax="60" ng-style="{width:((countdown/60)*100)+'%'}">
-            	{{countdown}} seconds left
+            	<span class="show">{{countdown}} seconds left</span>
        			 </div>
     		</div>
     	</div>
@@ -48,7 +48,7 @@
 				<button ng-click="checkAns()" type="button" class="btn btn-primary">Submit</button>
 		</div>
 	</div>
-</div
+</div>
 
 <div class="col-xs-12">
 	<div class="panel panel-default">
