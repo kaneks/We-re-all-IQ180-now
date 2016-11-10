@@ -5,9 +5,9 @@ function socketio($rootScope) {
 	var socket = io.connect(window.location.origin);
 	var name = 'test';
 	var roomNum;
-	
+
 	init();
-	
+
 	function init() {
 		clear();
 		ready();
@@ -15,6 +15,7 @@ function socketio($rootScope) {
 		waitGame();
 		win();
 		lose();
+		updateQuestion();
 		draw();
 		listenChat();
 	}
@@ -41,15 +42,8 @@ function socketio($rootScope) {
 
 	function ready() {
 		socket.on('gameReady', function (data) {
-			//UNLOCK READY BUTTON
-			//console.log('isReady');
 			console.log(data.room);
-			//console.log(data.roomNumber);
-			roomNumber = data.roomNumber;
-			setRoomNumber(roomNumber);
-			//console.log('room assigned');
-			//console.log(socket.id);
-			//console.log(data.room.first.id);
+			setRoomNumber(data.roomNumber);
 			//socket id was null need to change logic
 			if ($rootScope.username === data.room.first.name) {
 				$rootScope.opponentName = data.room.second.name;
@@ -57,11 +51,9 @@ function socketio($rootScope) {
 				$rootScope.opponentName = data.room.first.name;
 			}
 
-			$rootScope.num = [data.question.nums[0], data.question.nums[1], data.question.nums[2]
-				, data.question.nums[3], data.question.nums[4]];
-			    $rootScope.ans = data.question.ans;
-			    $rootScope.probNums = [data.question.nums[0], data.question.nums[1], data.question.nums[2]
-					, data.question.nums[3], data.question.nums[4]];
+			$rootScope.num = [data.question.nums[0], data.question.nums[1], data.question.nums[2], data.question.nums[3], data.question.nums[4]];
+			$rootScope.ans = data.question.ans;
+			$rootScope.probNums = [data.question.nums[0], data.question.nums[1], data.question.nums[2], data.question.nums[3], data.question.nums[4]];
 
 			console.log($rootScope.opponentName + ' is the opponent.');
 			setTimeout(function () {
@@ -140,6 +132,15 @@ function socketio($rootScope) {
 		});
 	}
 
+	function updateQuestion() {
+		socket.on('updateQuestion', function (data) {
+			console.log('Got new question.');
+			$rootScope.num = [data.question.nums[0], data.question.nums[1], data.question.nums[2], data.question.nums[3], data.question.nums[4]];
+			$rootScope.ans = data.question.ans;
+			$rootScope.probNums = [data.question.nums[0], data.question.nums[1], data.question.nums[2], data.question.nums[3], data.question.nums[4]];
+		});
+	}
+
 	function setRoomNumber(num) {
 		roomNum = num;
 	}
@@ -166,7 +167,7 @@ function socketio($rootScope) {
 			roomNumber : roomNum
 		});
 	}
-	
+
 	var service = {};
 
 	//emits 'ready' when is ready

@@ -32,13 +32,12 @@ app.post('/u', function (req, res) {
 	} else {
 		MongoClient.connect(url, function (err, db) {
 			if (err) {
-				console.log('Unable to connect to the mongoDB server. Error:', err);
+				console.log(err);
 				return res.send({
 					'status' : '1',
 					'message' : err
 				});
 			} else {
-				console.log('Connection established to', url);
 				var collection = db.collection('user');
 				var user = {
 					name : '',
@@ -55,6 +54,7 @@ app.post('/u', function (req, res) {
 							'message' : err
 						});
 					} else {
+						console.log('Inserted ' + req.body.name + '.');
 						return res.send({
 							'status' : '0',
 							'message' : 'user created'
@@ -87,6 +87,7 @@ app.get('/u/:name', function (req, res) {
 						'message' : err
 					});
 				} else if (doc != null) {
+					console.log('Found ' + req.body.name + '.');
 					return res.send({
 						'status' : 0,
 						'message' : 'user found',
@@ -94,6 +95,7 @@ app.get('/u/:name', function (req, res) {
 
 					});
 				} else {
+					console.log('Can not find ' + req.body.name + '.');
 					return res.send({
 						'status' : 2,
 						'message' : 'user not found'
@@ -125,22 +127,32 @@ function generateQuestion() {
 	}
 
 	var temp = genNums[0];
+	var sol = genNums[0] + ' ';
+	
 	for (var i = 0; i < 4; i++) {
 		var opSelector = Math.floor(Math.random() * 4);
 		if (opSelector == 0) {
 			temp += genNums[i + 1];
+			sol += '+ ' + genNums[i+1] + ' ';
 		} else if (opSelector == 1) {
 			temp -= genNums[i + 1];
+			sol += '- ' + genNums[i+1] + ' ';
 		} else if (opSelector == 2) {
 			temp *= genNums[i + 1];
+			sol += '* ' + genNums[i+1] + ' ';
 		} else {
 			if ((temp % genNums[i + 1]) == 0) {
 				temp /= genNums[i + 1];
+				sol += '/ ' + genNums[i+1] + ' ';
 			} else {
 				i--;
 			}
 		}
 	}
+	
+	sol += '= ' + temp;
+	
+	console.log(sol);
 
 	return {
 		'nums' : probNums,
@@ -173,9 +185,6 @@ io.on('connection', function (socket) {
 				},
 				'roomNumber' : roomCount
 			};
-			//rooms[roomCount].first = {};
-			//rooms[roomCount].second = {};
-			//rooms[roomCount].roomNumber = roomCount;
 			if (Math.random() < 0.5) {
 				rooms[roomCount].first.id = socket.id;
 				rooms[roomCount].first.name = name;
@@ -193,14 +202,6 @@ io.on('connection', function (socket) {
 				rooms[roomCount].first.name = name;
 			}
 			io.sockets.in('monitors').emit('updateData', rooms);
-			/*
-			io.sockets.in(roomCount).emit('assignRoom', {
-			'roomNumber' : roomCount,
-			'room' : rooms[roomCount]
-			});
-			console.log('Emitted \'assignRoom\' to ' + rooms[roomCount].first.name);
-			console.log('Emitted \'assignRoom\' to ' + rooms[roomCount].second.name);
-			 */
 			io.sockets.in(roomCount).emit('gameReady', {
 				'roomNumber' : roomCount,
 				'room' : rooms[roomCount],
@@ -208,8 +209,6 @@ io.on('connection', function (socket) {
 			});
 			console.log('Emitted \'gameReady\' to ' + rooms[roomCount].first.name);
 			console.log('Emitted \'gameReady\' to ' + rooms[roomCount].second.name);
-			//rooms[roomCount].first.ready = false;
-			//rooms[roomCount].second.ready = false;
 		}
 	});
 	socket.on('playerReady', function (roomNumber) {
@@ -262,8 +261,14 @@ io.on('connection', function (socket) {
 				console.log('Emitted \'draw\' to ' + rooms[data.roomNumber].second.name);
 				updateResult(rooms[data.roomNumber].first.name, rooms[data.roomNumber].second.name, true);
 			}
+			rooms[data.roomNumber].question = generateQuestion();
 			rooms[data.roomNumber].first.ready = false;
 			rooms[data.roomNumber].second.ready = false;
+			io.sockets.in(roomCount).emit('updateQuestion', {
+				'question' : generateQuestion()
+			});
+			console.log('Emitted \'gameReady\' to ' + rooms[data.roomNumber].first.name);
+			console.log('Emitted \'gameReady\' to ' + rooms[data.roomNumber].second.name);
 			io.sockets.in('monitors').emit('updateData', rooms);
 		}
 	});
@@ -272,7 +277,7 @@ io.on('connection', function (socket) {
 		for (var i = 0; i < rooms.length; i++) {
 			if (socket.id == rooms[i].first.id || socket.id == rooms[i].second.id) {
 				io.sockets.in(i).emit('clear');
-				if((socket.id == rooms[i].first.id && rooms[i].second.id == '') || (socket.id == rooms[i].second.id && rooms[i].first.id == '')){
+				if ((socket.id == rooms[i].first.id && rooms[i].second.id == '') || (socket.id == rooms[i].second.id && rooms[i].first.id == '')) {
 					roomCount++;
 					break;
 				}
@@ -307,21 +312,19 @@ io.on('connection', function (socket) {
 
 	socket.on('chat message', function (data) {
 		//console.log('received chat data in backend');
-		if(socket.id == rooms[data.roomNumber].first.id){
+		if (socket.id == rooms[data.roomNumber].first.id) {
 			io.sockets.in(data.roomNumber).emit('chat message', rooms[data.roomNumber].first.name + " : " + data.msg);
 		} else {
 			io.sockets.in(data.roomNumber).emit('chat message', rooms[data.roomNumber].second.name + " : " + data.msg);
 		}
-		console.log(data.msg);
 	});
 });
 
 function updateResult(winnerName, loserName, draw) {
 	MongoClient.connect(url, function (err, db) {
 		if (err) {
-			console.log('Unable to connect to the mongoDB server. Error:', err);
+			console.log(err);
 		} else {
-			console.log('Connection established to', url);
 			var collection = db.collection('user');
 			if (draw) {
 				collection.update({
