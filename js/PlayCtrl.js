@@ -90,7 +90,7 @@ myapp.controller("PlayCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 						//return false;
 					}else if(txt.match(/[\*\-\+\/\(\)]/)){
 						wasNum=false;
-						numChange(txt);
+						//numChange(txt);
 					}
 					else if(e.which ==8){
 						if($scope.ansField.charAt($scope.ansField.length-1).match(/[0-9]/)){
