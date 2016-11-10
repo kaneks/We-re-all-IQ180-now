@@ -6,7 +6,27 @@ myapp.controller("WinLoseCtrl",['$rootScope','$scope','$location','socketio',fun
 
     var time = 10000;
     $rootScope.firstEnter=false;
-
+    // var settings = {
+    //     "async": true,
+    //     "crossDomain": true,
+    //     "url": "https://api:key-38a532dc39b69b48d15db60e9350a46f@api.mailgun.net/v3/sandbox6027fddd08174f7f8f6ed2b8244dd5e9.mailgun.org/messages",
+    //     "method": "POST",
+    //     "headers": {
+    //         "content-type": "application/x-www-form-urlencoded",
+    //         "cache-control": "no-cache",
+    //         "postman-token": "aaeadfdc-5542-7938-e644-c992851a5c77"
+    //     },
+    //     "data": {
+    //         "from": "Mailgun Sandbox <postmaster@sandbox6027fddd08174f7f8f6ed2b8244dd5e9.mailgun.org>",
+    //         "to": "Kan <kanek.eks@gmail.com>",
+    //         "subject": "Hello",
+    //         "text": "Hello"
+    //     }
+    // }
+    //
+    // $.ajax(settings).done(function (response) {
+    //     console.log(response);
+    // });
 
     // var settings = {
     //     "async": true,
