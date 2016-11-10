@@ -170,7 +170,7 @@ myapp.controller("PlayCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 				console.log(ansFormula);
 
 				var ansNums = ansFormula.match(/\d/g).map(Number);
-				if(ansNums != null) {
+				
 					//for bug checking will have to change back
 					if (angular.equals(ansNums.sort(), probNums.sort())) {
 						if (eval(ansFormula) == ans) {
@@ -190,7 +190,7 @@ myapp.controller("PlayCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 							console.log('INCOMPLETE');
 						}
 					}
-				}
+				
 			};
 
 			function startCountdown() {

@@ -87,7 +87,7 @@ app.get('/u/:name', function (req, res) {
 						'message' : err
 					});
 				} else if (doc != null) {
-					console.log('Found ' + req.body.name + '.');
+					console.log('Found ' + req.params.name + '.');
 					return res.send({
 						'status' : 0,
 						'message' : 'user found',
@@ -95,7 +95,7 @@ app.get('/u/:name', function (req, res) {
 
 					});
 				} else {
-					console.log('Can not find ' + req.body.name + '.');
+					console.log('Can not find ' + req.params.name + '.');
 					return res.send({
 						'status' : 2,
 						'message' : 'user not found'
@@ -128,30 +128,30 @@ function generateQuestion() {
 
 	var temp = genNums[0];
 	var sol = genNums[0] + ' ';
-	
+
 	for (var i = 0; i < 4; i++) {
 		var opSelector = Math.floor(Math.random() * 4);
 		if (opSelector == 0) {
 			temp += genNums[i + 1];
-			sol += '+ ' + genNums[i+1] + ' ';
+			sol += '+ ' + genNums[i + 1] + ' ';
 		} else if (opSelector == 1) {
 			temp -= genNums[i + 1];
-			sol += '- ' + genNums[i+1] + ' ';
+			sol += '- ' + genNums[i + 1] + ' ';
 		} else if (opSelector == 2) {
 			temp *= genNums[i + 1];
-			sol += '* ' + genNums[i+1] + ' ';
+			sol += '* ' + genNums[i + 1] + ' ';
 		} else {
 			if ((temp % genNums[i + 1]) == 0) {
 				temp /= genNums[i + 1];
-				sol += '/ ' + genNums[i+1] + ' ';
+				sol += '/ ' + genNums[i + 1] + ' ';
 			} else {
 				i--;
 			}
 		}
 	}
-	
+
 	sol += '= ' + temp;
-	
+
 	console.log(sol);
 
 	return {
@@ -165,6 +165,8 @@ function generateQuestion() {
 
 var rooms = [];
 var roomCount = 0;
+var monitors = [];
+var monitorCount = 0;
 io.on('connection', function (socket) {
 	socket.on('join', function (name) {
 		console.log('Received \'join\' from ' + name);
@@ -261,10 +263,9 @@ io.on('connection', function (socket) {
 				console.log('Emitted \'draw\' to ' + rooms[data.roomNumber].second.name);
 				updateResult(rooms[data.roomNumber].first.name, rooms[data.roomNumber].second.name, true);
 			}
-			rooms[data.roomNumber].question = generateQuestion();
 			rooms[data.roomNumber].first.ready = false;
 			rooms[data.roomNumber].second.ready = false;
-			io.sockets.in(roomCount).emit('updateQuestion', {
+			io.sockets.in(data.roomNumber).emit('updateQuestion', {
 				'question' : generateQuestion()
 			});
 			console.log('Emitted \'gameReady\' to ' + rooms[data.roomNumber].first.name);
@@ -273,30 +274,39 @@ io.on('connection', function (socket) {
 		}
 	});
 	socket.on('disconnect', function () {
-		console.log(socket.id + ' abandoned the game.');
-		for (var i = 0; i < rooms.length; i++) {
-			if (socket.id == rooms[i].first.id || socket.id == rooms[i].second.id) {
-				io.sockets.in(i).emit('clear');
-				if ((socket.id == rooms[i].first.id && rooms[i].second.id == '') || (socket.id == rooms[i].second.id && rooms[i].first.id == '')) {
-					roomCount++;
-					break;
+		if (monitors.indexOf(socket.id) >= 0) {
+			console.log('Monitor disconnected.');
+		} else {
+			console.log(socket.id + ' abandoned the game.');
+			for (var i = 0; i < rooms.length; i++) {
+				if (rooms[i] != null) {
+					if (socket.id == rooms[i].first.id || socket.id == rooms[i].second.id) {
+						io.sockets.in(i).emit('clear');
+						if ((socket.id == rooms[i].first.id && rooms[i].second.id == '') || (socket.id == rooms[i].second.id && rooms[i].first.id == '')) {
+							roomCount++;
+							break;
+						}
+						if (socket.id == rooms[i].first.id) {
+							console.log(rooms[i].first.name + ' abandoned the game.');
+							console.log(rooms[i].second.name + ' disconnected.');
+						} else {
+							console.log(rooms[i].second.name + ' abandoned the game.');
+							console.log(rooms[i].first.name + ' disconnected.');
+						}
+						roomCount++;
+						break;
+					}
 				}
-				if (socket.id == rooms[i].first.id) {
-					console.log(rooms[i].first.name + ' abandoned the game.');
-					console.log(rooms[i].second.name + ' disconnected.');
-				} else {
-					console.log(rooms[i].second.name + ' abandoned the game.');
-					console.log(rooms[i].first.name + ' disconnected.');
-				}
-				break;
 			}
+			io.sockets.in('monitors').emit('updateData', rooms);
 		}
-		io.sockets.in('monitors').emit('updateData', rooms);
 	});
 
 	//Monitor
 
 	socket.on('requestData', function () {
+		monitors[monitorCount] = socket.id;
+		monitorCount++;
 		socket.join('monitors');
 		socket.emit('updateData', rooms);
 	});
