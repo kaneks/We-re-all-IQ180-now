@@ -35,9 +35,17 @@ myapp.controller("PlayCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 			// 	}
 			// }
 
-			function numChange () {
+			function numChange (clickedNum) {
 				reset();
 				var ansFormula = $scope.ansField;
+				if(clickedNum == 'x'){
+					//also check logic for when the ansfield is''
+					if($scope.ansField.length!=0){
+						 ansFormula = $scope.ansField.slice(0,$scope.ansField.length-1);
+					}
+				}else {
+					 ansFormula = $scope.ansField+clickedNum;
+				}
 
 				if (ansFormula.length != 0) {
 					var ansNums = ansFormula.match(/\d/g).map(Number);
@@ -61,18 +69,36 @@ myapp.controller("PlayCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 					var txt = String.fromCharCode(e.which);
 					console.log(txt + ' : ' + e.which);
 					if(txt.match(/[0-9]/)&&!wasNum) {
-						wasNum = true;
-						for(var i=0;i<probNums.length ; i++){
-							
-						}
 
-						numChange();
+						 var foundPlace = false;
+						// //issues will fix
+						 for(var k=0;k<probNums.length ; k++){
+							 if(txt == probNums[k]&& check[k]){
+								foundPlace=true;
+								 break;
+							 }
+						  }
+
+						  if(!foundPlace){
+							  return false;
+						  }
+
+						wasNum = true;
+						numChange(txt);
+
 
 						//return false;
-					}else if(txt.match(/[\*\-\+\/\(\)]/)||e.which ==8){
+					}else if(txt.match(/[\*\-\+\/\(\)]/)){
 						wasNum=false;
-						numChange();
-					}else {
+						numChange(txt);
+					}
+					else if(e.which ==8){
+						if($scope.ansField.charAt($scope.ansField.length-1).match(/[0-9]/)){
+							wasNum=false;
+						}
+						numChange('x');
+					}
+					else {
 						return false;
 					}
 				});
@@ -82,54 +108,66 @@ myapp.controller("PlayCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 			function turnRed(num) {
 				switch (num) {
 				case 0:
-					$scope.customStyle.style0 = {
-						"color" : "red"
-					};
+					// $scope.customStyle.style0 = {
+					// 	"color" : "red"
+					// }
+					$("#num0").css("color", "red").show();
 					break;
 				case 1:
-					$scope.customStyle.style1 = {
-						"color" : "red"
-					};
+					// $scope.customStyle.style1 = {
+					// 	"color" : "red"
+					// }
+					$("#num1").css("color", "red").show();
 					break;
 				case 2:
-					$scope.customStyle.style2 = {
-						"color" : "red"
-					};
+					// $scope.customStyle.style2 = {
+					// 	"color" : "red"
+					// }
+					$("#num2").css("color", "red").show();
 					break;
 				case 3:
-					$scope.customStyle.style3 = {
-						"color" : "red"
-					};
+					// $scope.customStyle.style3 = {
+					// 	"color" : "red"
+					// }
+					$("#num3").css("color", "red").show();
 					break;
 				case 4:
-					$scope.customStyle.style4 = {
-						"color" : "red"
-					};
+					// $scope.customStyle.style4 = {
+					// 	"color" : "red"
+					// }
+					$("#num4").css("color", "red").show();
 					break;
 				}
 			}
 
 			function reset() {
 				check = [true, true, true, true, true];
-				$scope.customStyle.style0 = {
-					"color" : "black"
-				};
-				$scope.customStyle.style1 = {
-					"color" : "black"
-				};
-				$scope.customStyle.style2 = {
-					"color" : "black"
-				};
-				$scope.customStyle.style3 = {
-					"color" : "black"
-				};
-				$scope.customStyle.style4 = {
-					"color" : "black"
-				};
+					// $scope.customStyle.style0 = {
+					// 	"color" : "black"
+					// };
+					// $scope.customStyle.style1 = {
+					// 	"color" : "black"
+					// };
+					// $scope.customStyle.style2 = {
+					// 	"color" : "black"
+					// };
+					// $scope.customStyle.style3 = {
+					// 	"color" : "black"
+					// };
+					// $scope.customStyle.style4 = {
+					// 	"color" : "black"
+					// };
+				$("#num0").css("color", "black").show();
+				$("#num1").css("color", "black").show();
+				$("#num2").css("color", "black").show();
+				$("#num3").css("color", "black").show();
+				$("#num4").css("color", "black").show();
+
 			}
 
 			$scope.checkAns = function () {
 				var ansFormula = $scope.ansField;
+				console.log(ansFormula);
 
 				var ansNums = ansFormula.match(/\d/g).map(Number);
 				if(ansNums != null) {
