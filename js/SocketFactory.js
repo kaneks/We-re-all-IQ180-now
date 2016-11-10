@@ -126,8 +126,6 @@ function socketio($rootScope) {
 		socket.on('draw', function () {
 			console.log('it\'s a draw');
 			$rootScope.winner = 'It\'s a draw';
-			$rootScope.scoreP2++;
-			$rootScope.scoreP1++;
 			$rootScope.$broadcast('ending');
 		});
 	}
