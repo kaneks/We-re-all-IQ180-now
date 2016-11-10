@@ -92,17 +92,23 @@ myapp.controller("PlayCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 						wasNum=false;
 						//numChange(txt);
 					}
-					else if(e.which ==8){
-						if($scope.ansField.charAt($scope.ansField.length-1).match(/[0-9]/)){
-							wasNum=false;
-						}
-						numChange('x');
-					}
 					else {
 						return false;
 					}
 				});
 
+
+
+	$('#ans').bind('keydown', function(e) {
+		var keycode = e.which || e.keyCode;
+		if(e.which ==8){
+			if($scope.ansField.charAt($scope.ansField.length-1).match(/[0-9]/)){
+				wasNum=false;
+			}
+			numChange('x');
+		}
+
+	});
 
 
 			function turnRed(num) {
