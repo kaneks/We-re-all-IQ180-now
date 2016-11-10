@@ -1,6 +1,18 @@
 <!--<div class="text-center" id="time">time</div>-->
 
 <div class="col-xs-12">
+	<div class="progress">
+        <div class="row">
+        	<div class="progress">
+        		<div class="progress-bar" role="progressbar" aria-valuenow="{{countdown}}" aria-valuemin="0" aria-valuemax="60" ng-style="{width:((countdown/60)*100)+'%'}">
+            	{{countdown}} seconds left
+       			 </div>
+    		</div>
+    	</div>
+    </div>
+</div>
+
+<div class="col-xs-12">
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<div class="panel-title pull-left">
@@ -21,6 +33,7 @@
 		</div>
 
 		<div class="panel-body text-center">
+
 				<p>
 					<span ng-style="customStyle.style0" id="num0">{{num[0]}} </span>
 					<span ng-style="customStyle.style1" id="num1">{{num[1]}} </span>
@@ -35,19 +48,7 @@
 				<button ng-click="checkAns()" type="button" class="btn btn-primary">Submit</button>
 		</div>
 	</div>
-</div>
-
-<div class="col-xs-12">
-	<div class="progress">
-        <div class="row">
-        	<div class="progress">
-        		<div class="progress-bar" role="progressbar" aria-valuenow="{{countdown}}" aria-valuemin="0" aria-valuemax="60" ng-style="{width:((countdown/60)*100)+'%'}">
-            	<span class="sr-only">{{countdown}} seconds left</span>
-       			 </div>
-    		</div>
-    	</div>
-    </div>
-</div>
+</div
 
 <div class="col-xs-12">
 	<div class="panel panel-default">

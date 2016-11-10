@@ -200,7 +200,7 @@ myapp.controller("PlayCtrl", ['$rootScope', '$scope', '$location', 'socketio', f
 			};
 
 			function startCountdown() {
-				$scope.countdown = time / 1000;
+				$scope.countdown = Math.round(time / 1000);
 				//console.log($scope.countdown);
 				if (time < 0) {
 					//code for exiting

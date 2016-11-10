@@ -1,6 +1,4 @@
 body {
-    width: 500px;
-    margin: 4% auto;
     font-family: 'Source Sans Pro', sans-serif;
     letter-spacing: 5px;
     font-size: 1.8rem;
@@ -10,6 +8,8 @@ body {
 }
 
 .calculator {
+    width: 410px;
+    margin: 4% auto;
     padding: 20px;
     -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
