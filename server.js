@@ -43,7 +43,8 @@ app.post('/u', function (req, res) {
 					name : '',
 					points : 0,
 					wins : 0,
-					losses : 0
+					losses : 0,
+					draws : 0
 				};
 				user.name = req.body.name;
 				collection.insert(user, function (err, doc) {
@@ -341,14 +342,14 @@ function updateResult(winnerName, loserName, draw) {
 					'name' : winnerName
 				}, {
 					$inc : {
-						'points' : 50
+						'draws' : 1
 					}
 				});
 				collection.update({
 					'name' : loserName
 				}, {
 					$inc : {
-						'points' : 50
+						'draws' : 1
 					}
 				});
 			} else {
@@ -356,7 +357,7 @@ function updateResult(winnerName, loserName, draw) {
 					'name' : winnerName
 				}, {
 					$inc : {
-						'points' : 100,
+						'points' : 1,
 						'wins' : 1
 					}
 				});
@@ -364,7 +365,6 @@ function updateResult(winnerName, loserName, draw) {
 					'name' : loserName
 				}, {
 					$inc : {
-						'points' : 50,
 						'losses' : 1
 					}
 				});
