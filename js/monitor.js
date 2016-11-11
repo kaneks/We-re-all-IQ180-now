@@ -21,11 +21,11 @@ function updatePage(){
 	$('#playersList').empty();
 	for(var i = 0; i < rooms.length; i++){
 		if(rooms[i] != null){
-			if(rooms[i].first.name != '' && rooms[i].second.name != ''){
+			if(rooms[i].first.name != '' && rooms[i].second.name != '' && rooms[i].first.over == false && rooms[i].second.over == false){
 				$('#playersList').append($('<li>').attr('class',  'list-group-item').append(rooms[i].first.name + ' VS ' + rooms[i].second.name));
-			} else if(rooms[i].first.name != '' && rooms[i].second.name == ''){
+			} else if(rooms[i].first.name != '' && rooms[i].second.name == '' && rooms[i].first.over == false){
 				$('#playersList').append($('<li>').attr('class',  'list-group-item').append(rooms[i].first.name + ' is waiting for another player.'));
-			} else if(rooms[i].first.name == '' && rooms[i].second.name != ''){
+			} else if(rooms[i].first.name == '' && rooms[i].second.name != '' && rooms[i].second.over == false){
 				$('#playersList').append($('<li>').attr('class',  'list-group-item').append(rooms[i].second.name + ' is waiting for another player.'));
 			}
 		}
@@ -34,13 +34,15 @@ function updatePage(){
 
 function getNumberOfPlayers(){
 	var p = 0;
-	for(var i = 0; i < rooms.length; i++){
-		if(rooms[i] != null){
-			if(rooms[i].first.name != ''){
-				p++;
-			}
-			if(rooms[i].second.name != ''){
-				p++;
+	for(var i = 0; i < rooms.length; i++) {
+		if (rooms[i].first.over == false || rooms[i].second.over == false) {
+			if (rooms[i] != null) {
+				if (rooms[i].first.name != '') {
+					p++;
+				}
+				if (rooms[i].second.name != '') {
+					p++;
+				}
 			}
 		}
 	}

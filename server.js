@@ -179,12 +179,14 @@ io.on('connection', function (socket) {
 				'first' : {
 					'id' : '',
 					'name' : '',
-					'ready' : false
+					'ready' : false,
+					'over' : false
 				},
 				'second' : {
 					'id' : '',
 					'name' : '',
-					'ready' : false
+					'ready' : false,
+					'over' : false
 				},
 				'roomNumber' : roomCount
 			};
@@ -280,6 +282,8 @@ io.on('connection', function (socket) {
 		} else {
 			console.log(socket.id + ' abandoned the game.');
 			for (var i = 0; i < rooms.length; i++) {
+				rooms[i].first.over = true;
+				rooms[i].second.over = true;
 				if (rooms[i] != null) {
 					if (socket.id == rooms[i].first.id || socket.id == rooms[i].second.id) {
 						io.sockets.in(i).emit('clear');
