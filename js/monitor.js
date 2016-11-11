@@ -34,13 +34,15 @@ function updatePage(){
 
 function getNumberOfPlayers(){
 	var p = 0;
-	for(var i = 0; i < rooms.length; i++){
-		if(rooms[i] != null){
-			if(rooms[i].first.name != ''){
-				p++;
-			}
-			if(rooms[i].second.name != ''){
-				p++;
+	for(var i = 0; i < rooms.length; i++) {
+		if (rooms[i].first.over == false || rooms[i].second.over == false) {
+			if (rooms[i] != null) {
+				if (rooms[i].first.name != '') {
+					p++;
+				}
+				if (rooms[i].second.name != '') {
+					p++;
+				}
 			}
 		}
 	}
